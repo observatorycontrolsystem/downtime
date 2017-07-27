@@ -2,7 +2,7 @@ FROM python:3.6
 MAINTAINER Austin Riba <ariba@lco.global>
 
 EXPOSE 80
-CMD gunicorn -w 2 downtime.wsgi -b 0.0.0.0:80
+CMD gunicorn downtime.wsgi -b 0.0.0.0:80
 WORKDIR /downtime
 
 COPY requirements.txt /downtime

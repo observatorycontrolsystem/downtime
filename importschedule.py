@@ -1,5 +1,6 @@
 import csv
 import datetime
+from schedule.models import Downtime
 
 with open('rtischedule.txt') as csvfile:
     rtireader = csv.reader(csvfile)
