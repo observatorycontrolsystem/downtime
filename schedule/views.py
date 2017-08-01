@@ -11,8 +11,8 @@ class DowntimeFilter(django_filters.FilterSet):
     class Meta:
         model = Downtime
         fields = {
-            'start': ['lt', 'gt'],
-            'end': ['lt', 'gt'],
+            'start': ['lte', 'gte'],
+            'end': ['lte', 'gte'],
             'site': ['exact'],
             'observatory': ['exact'],
             'telescope': ['exact'],
