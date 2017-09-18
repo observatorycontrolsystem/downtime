@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Downtime(models.Model):
@@ -23,3 +24,7 @@ class Downtime(models.Model):
             'telescope': self.telescope,
             'reason': self.reason
         }
+
+    def clean(self, *args, **kwargs):
+        if self.start >= self.end:
+            raise ValidationError('Start time must come before end time')
