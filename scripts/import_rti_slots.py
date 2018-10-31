@@ -6,7 +6,8 @@ from schedule.models import Downtime
 def _get_year(filename, month):
     return {
         'rti_slots_2018a.csv': '2017' if month == 'Dec' else '2018',
-        'rti_slots_2018b.csv': '2018'
+        'rti_slots_2018b.csv': '2018',
+        'rti_slots_2019a.csv': '2018' if month == 'Dec' else '2019',
      }[filename]
 
 
@@ -40,6 +41,6 @@ def submit_slots(filename, submit):
 if __name__ == '__main__':
     # Submit RTI downtimes. Input file must be formatted like rti_slots_2018a.csv.
     # Update the filename and set submit to True to submit downtimes.
-    filename = 'rti_slots_2018b.csv'
+    filename = 'rti_slots_2019a.csv'
     submit = False
     submit_slots(filename, submit)
