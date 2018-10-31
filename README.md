@@ -25,7 +25,7 @@ All filters can be chained (ANDed) together to narrow the results returned.
 
     [http://downtimedev.lco.gtn/?start__gte=2017-11-27%2014:45:00](http://downtimedev.lco.gtn/?start__gte=2017-11-27%2014:45:00)
 
-* Return the schedule beofre a specific date:
+* Return the schedule before a specific date:
 
     [http://downtimedev.lco.gtn/?end__lte=2017-08-24%2015:15:00](http://downtimedev.lco.gtn/?end__lte=2017-08-24%2015:15:00)
 
