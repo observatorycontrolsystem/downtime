@@ -1,5 +1,5 @@
-django
-django-extensions
-django-filter
-django-cors-headers
-whitenoise
+django>=2.1.2,<2.2
+django-extensions>=2.1,<2.2
+django-filter>=2.0,<2.1
+django-cors-headers>=2.4,<2.5
+whitenoise>=3.3,<4.0
