@@ -1,12 +1,20 @@
-FROM python:3.6
-MAINTAINER Austin Riba <ariba@lco.global>
+FROM python:3.6-alpine
 
 EXPOSE 80
-CMD gunicorn downtime.wsgi -b 0.0.0.0:80
 WORKDIR /downtime
 
-COPY requirements.txt /downtime
-RUN pip install gunicorn -r /downtime/requirements.txt --trusted-host=buildsba.lco.gtn && rm -rf /root/.cache/pip
+# Install Python dependencies
+COPY requirements.txt .
+RUN apk --no-cache add mariadb-connector-c \
+        && apk --no-cache add --virtual .build-deps gcc mariadb-connector-c-dev musl-dev \
+        && pip --no-cache-dir --trusted-host=buildsba.lco.gtn install -r requirements.txt \
+        && apk --no-cache del .build-deps
 
-COPY . /downtime
+# Install this application
+COPY . .
+
+# Collect static files ahead of time
 RUN python manage.py collectstatic --noinput
+
+# Default command
+CMD [ "gunicorn", "--workers=2", "--bind=0.0.0.0:80", "--user=daemon", "--group=daemon", "--access-logfile=-", "--error-logfile=-", "downtime.wsgi" ]

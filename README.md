@@ -38,3 +38,26 @@ All filters can be chained (ANDed) together to narrow the results returned.
     [http://downtimedev.lco.gtn/?site=ogg&observatory=clma&telescope=0m4a](http://downtimedev.lco.gtn/?site=ogg&observatory=clma&telescope=0m4a)
 
 It has no special needs for running or environmental variables, yet.
+
+## Build
+
+This project is built automatically by the [LCO Jenkins Server](http://jenkins.lco.gtn/).
+Please see the [Jenkinsfile](Jenkinsfile) for further details.
+
+## Deployment
+
+This project is deployed on the LCO Kubernetes Cluster. Please see the
+[LCO Helm Charts](https://github.com/LCOGT/helm-charts) repository for further
+information.
+
+## Configuration / Environment Variables
+
+This project is configured using Environment Variables.
+
+| Environment Variable | Description | Default Value |
+| --- | --- | --- |
+| `SECRET_KEY` | The Django Secret Key | `""` |
+| `DB_HOST` | MySQL Database Hostname | `""` |
+| `DB_NAME` | MySQL Database Name | `""` |
+| `DB_USER` | MySQL Database Username | `""` |
+| `DB_PASS` | MySQL Database Password | `""` |
