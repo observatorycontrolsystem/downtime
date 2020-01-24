@@ -1,13 +1,12 @@
 FROM python:3.6-alpine
 
-EXPOSE 80
-WORKDIR /downtime
+WORKDIR /app
 
 # Install Python dependencies
 COPY requirements.txt .
-RUN apk --no-cache add mariadb-connector-c \
-        && apk --no-cache add --virtual .build-deps gcc mariadb-connector-c-dev musl-dev \
-        && pip --no-cache-dir --trusted-host=buildsba.lco.gtn install -r requirements.txt \
+RUN apk --no-cache add postgresql-libs \
+        && apk --no-cache add --virtual .build-deps gcc postgresql-dev musl-dev \
+        && pip --no-cache-dir install -r requirements.txt \
         && apk --no-cache del .build-deps
 
 # Install this application
