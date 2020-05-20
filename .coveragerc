@@ -1,0 +1,6 @@
+[run]
+source = schedule
+
+[report]
+omit =
+    */migrations/*
