@@ -35,7 +35,7 @@ is used to denote commands that should be run using your virtual environment.
 
     python3 -m venv env
     source env/bin/activate
-    (env) pip install numpy && pip install -r requirements.txt
+    (env) pip install -r requirements.txt
 
 ### **Set up the database**
 
@@ -64,7 +64,7 @@ first create a superuser. Run the following and fill out all of the questions:
 
     (env) python manage.py createsuperuser
     
-You can then log in as the newly created superuser at <http://127.0.0.1:8000/admin> to manage downtimes.
+You can then log in as the newly created superuser at <http://127.0.0.1:8000/admin/> to manage downtimes.
 
 ## Example queries
 
@@ -79,22 +79,22 @@ A downtime entry in the database is returned in JSON and has the following forma
         "reason": "Maintenance"
     }
 
-* Return all downtimes
+Return all downtimes
 
     GET /
 
-* Return the downtimes past a specific date:
+Return the downtimes past a specific date:
 
     GET /?start__gte=2017-11-27%2014:45:00
 
-* Return the downtimes before a specific date:
+Return the downtimes before a specific date:
 
     GET /?end__lte=2017-08-24%2015:15:00
 
-* Filter downtimes by reason:
+Filter downtimes by reason:
 
     GET /?reason=Maintenance
 
-* Filter downtimes by site, observatory and telescope:
+Filter downtimes by site, observatory and telescope:
 
     GET /?site=ogg&observatory=clma&telescope=0m4a
