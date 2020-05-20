@@ -11,20 +11,24 @@ for things such as maintenance activites or education use on specific telescopes
 ## Prerequisites
 
 -  Python>=3.6
--  PostgreSQL
+-  (Optional) PostgreSQL
+
+By default, the application uses a SQLite database. This is suitable for development, but PostgreSQL is
+recommended when running in production.
 
 ## Configuration
 
 This project is configured using environment variables.
 
-| Environment Variable | Description                  | Default             |
-| -------------------- | ---------------------------- | ------------------- |
-| `SECRET_KEY`         | The Django Secret Key        | `### CHANGE ME ###` |
-| `DB_HOST`            | PostgreSQL Database Hostname | _empty string_      |
-| `DB_NAME`            | PostgreSQL Database Name     | _empty string_      |
-| `DB_USER`            | PostgreSQL Database Username | _empty string_      |
-| `DB_PASS`            | PostgreSQL Database Password | _empty string_      |
-| `DB_PORT`            | PostgreSQL Database Port     | _empty string_      |
+| Environment Variable | Description                                                                       | Default                      |
+| -------------------- | --------------------------------------------------------------------------------- | ---------------------------- |
+| `SECRET_KEY`         | Django Secret Key                                                                 | `### CHANGE ME ###`          |
+| `DB_ENGINE`          | Database Engine. To use PostgreSQL, set `django.db.backends.postgresql_psycopg2`. | `django.db.backends.sqlite3` |
+| `DB_NAME`            | Database Name                                                                     | `db.sqlite3`                 |
+| `DB_HOST`            | Database Hostname when using PostgreSQL. Not required when using SQLite.          | _empty string_               |
+| `DB_USER`            | Database Username when using PostgreSQL. Not required when using SQLite.          | _empty string_               |
+| `DB_PASS`            | Database Password when using PostgreSQL. Not required when using SQLite.          | _empty string_               |
+| `DB_PORT`            | Database Port when using PostgreSQL. Not required when using SQLite.              | `5432`                       |
 
 ## Local Development
 
@@ -39,17 +43,19 @@ is used to denote commands that should be run using your virtual environment.
 
 ### **Set up the database**
 
-This example uses the [PostgreSQL Docker image](https://hub.docker.com/_/postgres) to create a database. Make sure that the options that you use to set up your database correspond with your configured database settings.
+You may use the default SQLite for development, or you can set up a PostgreSQL. If using SQLite, you can skip directly
+to running database migrations. If using PostgreSQL, the following command uses the [PostgreSQL Docker image](https://hub.docker.com/_/postgres) to
+create a PostgreSQL database. Make sure that the options that you use to set up your database correspond with your configured database settings.
 
     docker run --name downtime-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=downtime -v/var/lib/postgresql/data -p5432:5432 -d postgres:11.1
 
-After creating the database, migrations must be applied to set up the tables in the database.
+Run database migrations to set up the tables in the database.
 
     (env) python manage.py migrate
 
 ### Run the tests
 
-    (env) python manage.py test --settings=test_settings
+    (env) python manage.py test
 
 ### Run the downtime database
 
