@@ -10,8 +10,8 @@ for things such as maintenance activites or education use on specific telescopes
 
 ## Prerequisites
 
--  Python>=3.6
--  (Optional) PostgreSQL
+-   Python>=3.6
+-   (Optional) PostgreSQL
 
 By default, the application uses a SQLite database. This is suitable for development, but PostgreSQL is
 recommended when running in production.
