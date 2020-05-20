@@ -20,15 +20,15 @@ recommended when running in production.
 
 This project is configured using environment variables.
 
-| Environment Variable | Description                                                                       | Default                      |
-| -------------------- | --------------------------------------------------------------------------------- | ---------------------------- |
-| `SECRET_KEY`         | Django Secret Key                                                                 | `### CHANGE ME ###`          |
-| `DB_ENGINE`          | Database Engine. To use PostgreSQL, set `django.db.backends.postgresql_psycopg2`. | `django.db.backends.sqlite3` |
-| `DB_NAME`            | Database Name                                                                     | `db.sqlite3`                 |
-| `DB_HOST`            | Database Hostname when using PostgreSQL. Not required when using SQLite.          | _empty string_               |
-| `DB_USER`            | Database Username when using PostgreSQL. Not required when using SQLite.          | _empty string_               |
-| `DB_PASS`            | Database Password when using PostgreSQL. Not required when using SQLite.          | _empty string_               |
-| `DB_PORT`            | Database Port when using PostgreSQL. Not required when using SQLite.              | `5432`                       |
+| Variable             | Description                                                                        | Default                      |
+| -------------------- | ---------------------------------------------------------------------------------- | ---------------------------- |
+| `SECRET_KEY`         | Django Secret Key                                                                  | `### CHANGE ME ###`          |
+| `DB_ENGINE`          | Database Engine, set to `django.db.backends.postgresql_psycopg2` to use PostgreSQL | `django.db.backends.sqlite3` |
+| `DB_NAME`            | Database Name                                                                      | `db.sqlite3`                 |
+| `DB_HOST`            | Database Hostname, set this when using PostgreSQL                                  | _empty string_               |
+| `DB_USER`            | Database Username, set this when using PostgreSQL                                  | _empty string_               |
+| `DB_PASS`            | Database Password, set this when using PostgreSQL                                  | _empty string_               |
+| `DB_PORT`            | Database Port, set this when using PostgreSQL                                      | `5432`                       |
 
 ## Local Development
 
@@ -57,7 +57,7 @@ Run database migrations to set up the tables in the database.
 
     (env) python manage.py test
 
-### Run the downtime database
+### Run the application
 
     (env) python manage.py runserver
 
