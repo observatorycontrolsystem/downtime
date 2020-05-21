@@ -43,7 +43,7 @@ is used to denote commands that should be run using your virtual environment.
 
 ### **Set up the database**
 
-You may use the default SQLite for development, or you can set up a PostgreSQL. If using SQLite, you can skip directly
+You may use the default SQLite for development, or you can set up using PostgreSQL. If using SQLite, you can skip directly
 to running database migrations. If using PostgreSQL, the following command uses the [PostgreSQL Docker image](https://hub.docker.com/_/postgres) to
 create a PostgreSQL database. Make sure that the options that you use to set up your database correspond with your configured database settings.
 
