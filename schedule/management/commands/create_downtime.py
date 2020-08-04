@@ -40,8 +40,8 @@ class Command(BaseCommand):
             logger.error(f"Telescope code {options['telescope']} is not 4 characters. Please provide a 4 character telescope code")
             sys.exit(1)
 
-        start = options['start']
-        end = options['end']
+        start = options['start'].replace(microsecond=0)
+        end = options['end'].replace(microsecond=0)
         if options['offset_hours'] != 0:
             start += timedelta(hours=options['offset_hours'])
         if options['duration_hours'] != 0:
