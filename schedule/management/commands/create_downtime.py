@@ -24,6 +24,10 @@ class Command(BaseCommand):
                             help='Start of downtime (datetime in isoformat)')
         parser.add_argument('--end', default=datetime.now() + timedelta(days=1), type=datetime.fromisoformat,
                             help='End of downtime (datetime in isoformat)')
+        parser.add_argument('--offset-hours', dest='offset_hours', default=0, type=float,
+                            help='Offset hours from current time for the start of your downtime')
+        parser.add_argument('--duration-hours', dest='duration_hours', default=0, type=float,
+                            help='Duration in hours for the downtime')                    
 
     def handle(self, *args, **options):
         if len(options['site']) != 3:
@@ -36,13 +40,20 @@ class Command(BaseCommand):
             logger.error(f"Telescope code {options['telescope']} is not 4 characters. Please provide a 4 character telescope code")
             sys.exit(1)
 
+        start = options['start']
+        end = options['end']
+        if options['offset_hours'] != 0:
+            start += timedelta(hours=options['offset_hours'])
+        if options['duration_hours'] != 0:
+            end = start + timedelta(hours=options['duration_hours'])
+
         downtime = Downtime.objects.create(
             site=options['site'],
             observatory=options['enclosure'],
             telescope=options['telescope'],
             reason=options['reason'],
-            start=options['start'],
-            end=options['end']
+            start=start,
+            end=end
         )
-        logger.info(f"Created downtime on {options['site']}.{options['enclosure']}.{options['telescope']} at {options['start']}")
+        logger.info(f"Created downtime on {options['site']}.{options['enclosure']}.{options['telescope']} at {start}")
         sys.exit(0)
