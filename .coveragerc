@@ -4,4 +4,5 @@ source = schedule
 [report]
 omit =
     */migrations/*
+    */management/*
     *apps.py
