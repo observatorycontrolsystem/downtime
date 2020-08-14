@@ -27,7 +27,7 @@ class Command(BaseCommand):
         parser.add_argument('--offset-hours', dest='offset_hours', default=0, type=float,
                             help='Offset hours from current time for the start of your downtime')
         parser.add_argument('--duration-hours', dest='duration_hours', default=0, type=float,
-                            help='Duration in hours for the downtime. If this is set, the `end` argument will be ignored.')                    
+                            help='Duration in hours for the downtime. If this is set, the `end` argument will be ignored.')
 
     def handle(self, *args, **options):
         if len(options['site']) != 3:
@@ -47,7 +47,7 @@ class Command(BaseCommand):
         if options['duration_hours'] != 0:
             end = start + timedelta(hours=options['duration_hours'])
 
-        downtime = Downtime.objects.create(
+        Downtime.objects.create(
             site=options['site'],
             observatory=options['enclosure'],
             telescope=options['telescope'],
