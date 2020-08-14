@@ -1,3 +1,8 @@
+## 2.2.2
+##### 2020-08-14
+
+* Add `create_downtime` management command
+
 ## 2.2
 ##### 2020-01-23
 

@@ -69,8 +69,12 @@ Downtimes are added and deleted manually via the admin interface. In order to ma
 first create a superuser. Run the following and fill out all of the questions:
 
     (env) python manage.py createsuperuser
-    
+
 You can then log in as the newly created superuser at <http://127.0.0.1:8000/admin/> to manage downtimes.
+
+There is also a django management command to create downtimes:
+
+    (env) python manage.py create_downtime help
 
 ## Example queries
 
