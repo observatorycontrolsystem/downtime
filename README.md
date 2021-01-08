@@ -84,7 +84,7 @@ A downtime entry in the database is returned in JSON and has the following forma
         "start": "2017-08-21T08:45:00Z",
         "end": "2017-08-21T09:45:00Z",
         "site": "coj",
-        "observatory": "clma",
+        "enclosure": "clma",
         "telescope": "0m4a",
         "reason": "Maintenance"
     }
@@ -105,6 +105,6 @@ Filter downtimes by reason:
 
     GET /?reason=Maintenance
 
-Filter downtimes by site, observatory and telescope:
+Filter downtimes by site, enclosure and telescope:
 
-    GET /?site=ogg&observatory=clma&telescope=0m4a
+    GET /?site=ogg&enclosure=clma&telescope=0m4a

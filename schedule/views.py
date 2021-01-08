@@ -14,7 +14,7 @@ class DowntimeFilter(django_filters.FilterSet):
             'start': ['lte', 'gte'],
             'end': ['lte', 'gte'],
             'site': ['exact'],
-            'observatory': ['exact'],
+            'enclosure': ['exact'],
             'telescope': ['exact'],
         }
 

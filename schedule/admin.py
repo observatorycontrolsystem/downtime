@@ -11,10 +11,10 @@ class DowntimeAdmin(admin.ModelAdmin):
         'start',
         'end',
         'site',
-        'observatory',
+        'enclosure',
         'telescope',
         'reason',
         'created',
-        'updated',
+        'modified',
     )
-    list_filter = ('start', 'end', 'created', 'updated', 'site', 'observatory', 'telescope')
+    list_filter = ('start', 'end', 'created', 'modified', 'site', 'enclosure', 'telescope')

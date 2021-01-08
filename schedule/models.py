@@ -6,11 +6,11 @@ class Downtime(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     site = models.CharField(max_length=3)
-    observatory = models.CharField(max_length=4)
+    enclosure = models.CharField(max_length=4)
     telescope = models.CharField(max_length=4)
     reason = models.CharField(max_length=3000, default='', blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ('start',)
@@ -20,7 +20,7 @@ class Downtime(models.Model):
             'start': self.start,
             'end': self.end,
             'site': self.site,
-            'observatory': self.observatory,
+            'enclosure': self.enclosure,
             'telescope': self.telescope,
             'reason': self.reason
         }

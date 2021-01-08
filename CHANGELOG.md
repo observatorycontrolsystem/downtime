@@ -27,4 +27,3 @@
 ##### 2018-10-31
 
 * Begin versioning
-

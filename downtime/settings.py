@@ -39,12 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django_filters',
+    'rest_framework',
     'corsheaders',
     'schedule'
 ]
 
 MIDDLEWARE = [
+    'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +55,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'downtime.auth_backends.OAuth2Backend',  # Allows Oauth login with username/pass
 ]
 
 ROOT_URLCONF = 'downtime.urls'
@@ -89,6 +97,36 @@ DATABASES = {
     }
 }
 
+
+CACHES = {
+    'default': {
+         'BACKEND': os.getenv('CACHE_BACKEND', 'django.core.cache.backends.locmem.LocMemCache'),
+         'LOCATION': os.getenv('CACHE_LOCATION', 'unique-snowflake')
+     },
+     'locmem': {
+         'BACKEND': os.getenv('LOCAL_CACHE_BACKEND', 'django.core.cache.backends.locmem.LocMemCache'),
+         'LOCATION': 'locmem-cache'
+     }
+}
+
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 1000,
+}
+
+
+# This project now requires connection to an OAuth server for authenticating users to make changes
+# In the OCS, this would be the Observation Portal backend
+OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', '')
+OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', '')
+OAUTH_TOKEN_URL = os.getenv('OAUTH_TOKEN_URL', '')
+# This project connects to ConfigDB to validate the sites, enclosures, and telescopes
+CONFIGDB_URL = os.getenv('CONFIGDB_URL', '')
 
 
 # Password validation
@@ -128,6 +166,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
