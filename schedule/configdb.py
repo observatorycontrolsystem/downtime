@@ -80,5 +80,16 @@ class ConfigDB(object):
             telescopes.append(('', ''))
         return telescopes
 
+    def telescope_exists(self, site_code, enclosure_code, telescope_code):
+        site_data = self.get_site_data()
+        for site in site_data:
+            if site_code == site['code']:
+                for enclosure in site['enclosure_set']:
+                    if enclosure_code == enclosure['code']:
+                        for telescope in enclosure['telescope_set']:
+                            if telescope_code == telescope['code']:
+                                return True
+        return False
+
 
 configdb = ConfigDB()
