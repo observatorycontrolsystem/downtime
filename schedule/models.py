@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 
 class Downtime(models.Model):
@@ -27,4 +28,4 @@ class Downtime(models.Model):
 
     def clean(self, *args, **kwargs):
         if self.start >= self.end:
-            raise ValidationError('Start time must come before end time')
+            raise ValidationError(_('End time must be after start time'))
