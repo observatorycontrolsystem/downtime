@@ -2,6 +2,7 @@ import requests
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.backends import BaseBackend
+from rest_framework import exceptions
 
 
 class OAuth2Backend(BaseBackend):
@@ -22,10 +23,20 @@ class OAuth2Backend(BaseBackend):
             }
         )
         if response.status_code == 200:
-            user, created = User.objects.get_or_create(
-                username=username,
-                is_superuser=True,
-                is_staff=True
+            # user is authenticated, so now query the profile to figure out if the user is staff
+            bearer_token = response.json()['access_token']
+            response2 = requests.get(
+                settings.OAUTH_PROFILE_URL,
+                headers={f'Authorization': 'Bearer {bearer_token}'}
+            )
+            if not response2.status_code == 200:
+                raise exceptions.AuthenticationFailed('Failed to access user profile')
+            user, created = User.objects.update_or_create(
+                username=response2.json()['username'],
+                defaults={
+                    'is_superuser': response2.json()['is_staff'],
+                    'is_staff': response2.json()['is_staff']
+                }
             )
             return user
         return None

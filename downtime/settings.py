@@ -59,8 +59,8 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'downtime.auth_backends.OAuth2Backend',  # Allows Oauth login with username/pass
+   'django.contrib.auth.backends.ModelBackend',
+   'downtime.auth_backends.OAuth2Backend',  # Allows Oauth2 login with username/pass
 ]
 
 ROOT_URLCONF = 'downtime.urls'
@@ -113,7 +113,7 @@ CACHES = {
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
+    'DEFAULT_PERMISSION_CLASSES': ('downtime.permissions.IsAdminUserOrReadOnly',),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -126,6 +126,7 @@ REST_FRAMEWORK = {
 OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', '')
 OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', '')
 OAUTH_TOKEN_URL = os.getenv('OAUTH_TOKEN_URL', '')
+OAUTH_PROFILE_URL = os.getenv('OAUTH_PROFILE_URL', '')
 # This project connects to ConfigDB to validate the sites, enclosures, and telescopes
 CONFIGDB_URL = os.getenv('CONFIGDB_URL', '')
 
@@ -170,3 +171,5 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+TEST_RUNNER = 'downtime.test_runner.MyDiscoverRunner'
