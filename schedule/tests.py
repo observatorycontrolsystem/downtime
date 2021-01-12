@@ -68,6 +68,13 @@ class TestDowntimeSerializer(TestCase):
         response = self.client.post(reverse('downtime-list'), downtime)
         self.assertEqual(Downtime.objects.count(), 1)
 
+    def test_post_downtime_fails_if_not_logged_in(self):
+        self.client.logout()
+        downtime = copy.deepcopy(self.base_downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+        response = self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+
     def test_post_downtime_fails_invalid_site(self):
         downtime = copy.deepcopy(self.base_downtime)
         downtime['site'] = 'nop' # this site doesnt exist in the test configdb data
@@ -77,7 +84,7 @@ class TestDowntimeSerializer(TestCase):
         self.assertIn('site', response.json())
         self.assertIn('"nop" is not a valid choice', response.json()['site'][0])
 
-    def test_post_downtime_fails_invalid_telescope(self):
+    def test_post_downtime_fails_invalid_telescope_combo(self):
         downtime = copy.deepcopy(self.base_downtime)
         # This combo doesn't exist in the test configdb data
         downtime['site'] = 'lco'
