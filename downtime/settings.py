@@ -113,6 +113,10 @@ CACHES = {
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'downtime.auth_backends.BearerAuthentication',  # Allows auth using oauth bearer
+    ),
     'DEFAULT_PERMISSION_CLASSES': ('downtime.permissions.IsAdminUserOrReadOnly',),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',

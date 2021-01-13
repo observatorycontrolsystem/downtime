@@ -19,6 +19,7 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from schedule.views import DowntimeListView
 from schedule.viewsets import DowntimeViewSet
+from downtime.views import BearerTokenView
 
 
 router = DefaultRouter()
@@ -27,5 +28,6 @@ router.register(r'', DowntimeViewSet, 'downtime')
 urlpatterns = [
     url(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
     url(r'^api/', include(router.urls)),
+    url(r'^api-token-auth/', BearerTokenView.as_view()),
     url(r'^admin/', admin.site.urls),
 ]

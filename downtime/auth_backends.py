@@ -2,7 +2,7 @@ import requests
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.backends import BaseBackend
-from rest_framework import exceptions
+from rest_framework import exceptions, authentication
 
 
 class OAuth2Backend(BaseBackend):
@@ -31,7 +31,7 @@ class OAuth2Backend(BaseBackend):
             )
             if not response2.status_code == 200:
                 raise exceptions.AuthenticationFailed('Failed to access user profile')
-            user, created = User.objects.update_or_create(
+            user, _ = User.objects.update_or_create(
                 username=response2.json()['username'],
                 defaults={
                     'is_superuser': response2.json()['is_staff'],
@@ -46,3 +46,34 @@ class OAuth2Backend(BaseBackend):
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
+
+
+class BearerAuthentication(authentication.BaseAuthentication):
+    """
+    Allows users to authenticate using the bearer token recieved from
+    the observation portal auth server (or via the /api-token-auth/ endpoint).
+    It is validated by attempting to request the user profile, which requires authentication
+    """
+    def authenticate(self, request):
+        auth_header = request.META.get('HTTP_AUTHORIZATION', '')
+        if 'Bearer' not in auth_header:
+            return None
+
+        bearer = auth_header.split('Bearer')[1].strip()
+        response = requests.get(
+            settings.OAUTH_PROFILE_URL,
+            headers={'Authorization': 'Bearer {}'.format(bearer)}
+        )
+
+        if not response.status_code == 200:
+            raise exceptions.AuthenticationFailed('No Such User or Invalid Bearer Token')
+
+        user, _ = User.objects.update_or_create(
+            username=response.json()['username'],
+            defaults={
+                'is_superuser': response.json()['is_staff'],
+                'is_staff': response.json()['is_staff']
+            }
+        )
+
+        return (user, None)
