@@ -27,11 +27,11 @@ class OAuth2Backend(BaseBackend):
             bearer_token = response.json()['access_token']
             response2 = requests.get(
                 settings.OAUTH_PROFILE_URL,
-                headers={f'Authorization': 'Bearer {bearer_token}'}
+                headers={'Authorization': f'Bearer {bearer_token}'}
             )
             if not response2.status_code == 200:
                 raise exceptions.AuthenticationFailed('Failed to access user profile')
-            user, created = User.objects.update_or_create(
+            user, _ = User.objects.update_or_create(
                 username=response2.json()['username'],
                 defaults={
                     'is_superuser': response2.json()['is_staff'],

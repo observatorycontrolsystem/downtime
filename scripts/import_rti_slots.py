@@ -33,7 +33,7 @@ def submit_slots(filename, submit):
             start = datetime.datetime.strptime(f'{year}-{month}-{day}T{start_time}', formatter)
             end = datetime.datetime.strptime(f'{year}-{month}-{day}T{end_time}', formatter)
 
-            print('Will submit:', start, end, site, enclsoure, telescope, 'where downtime is', (end-start).seconds/60, 'minutes long.')
+            print('Will submit:', start, end, site, enclosure, telescope, 'where downtime is', (end-start).seconds/60, 'minutes long.')
             if submit:
                 print('Submitting downtimes')
                 Downtime.objects.create(start=start, end=end, site=site, enclosure=enclosure, telescope=telescope, reason='RTI')

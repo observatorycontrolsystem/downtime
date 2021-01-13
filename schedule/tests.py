@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from schedule.models import Downtime
-from schedule.serializers import DowntimeSerializer
 
 
 class TestModelAdmin(TestCase):
@@ -66,6 +65,7 @@ class TestDowntimeSerializer(TestCase):
         downtime = copy.deepcopy(self.base_downtime)
         self.assertEqual(Downtime.objects.count(), 0)
         response = self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(response.status_code, 201)
         self.assertEqual(Downtime.objects.count(), 1)
 
     def test_post_downtime_fails_if_not_logged_in(self):

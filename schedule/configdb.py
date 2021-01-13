@@ -14,7 +14,8 @@ class ConfigDB(object):
 
     @staticmethod
     def _get_configdb_data(resource: str):
-        """Return all configuration data.
+        """
+        Return all configuration data.
 
         Return all data from ConfigDB at the given endpoint. Check first if the data is already cached, and
         if so, return that.
