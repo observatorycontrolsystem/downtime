@@ -1,8 +1,5 @@
-import django_filters
 from django_filters.views import FilterView
-from django.http import JsonResponse
 from django.utils import timezone
-from django.views import View
 from django.conf import settings
 
 from schedule.models import Downtime
