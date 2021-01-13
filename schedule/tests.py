@@ -72,7 +72,7 @@ class TestDowntimeSerializer(TestCase):
         self.client.logout()
         downtime = copy.deepcopy(self.base_downtime)
         self.assertEqual(Downtime.objects.count(), 0)
-        response = self.client.post(reverse('downtime-list'), downtime)
+        self.client.post(reverse('downtime-list'), downtime)
         self.assertEqual(Downtime.objects.count(), 0)
 
     def test_post_downtime_fails_invalid_site(self):
