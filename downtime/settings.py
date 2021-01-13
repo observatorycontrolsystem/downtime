@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# URL to a hosted organization/application logo to use in the navbar
+LOGO_URL = os.environ.get('LOGO_URL', '')
 
 # Application definition
 
