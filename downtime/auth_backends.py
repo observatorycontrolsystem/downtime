@@ -12,7 +12,7 @@ class OAuth2Backend(BaseBackend):
     """
 
     def authenticate(self, request, username=None, password=None):
-        response = requests.post(
+        token_response = requests.post(
             settings.OAUTH_TOKEN_URL,
             data={
                 'grant_type': 'password',
@@ -22,20 +22,20 @@ class OAuth2Backend(BaseBackend):
                 'client_secret': settings.OAUTH_CLIENT_SECRET
             }
         )
-        if response.status_code == 200:
+        if token_response.status_code == 200:
             # user is authenticated, so now query the profile to figure out if the user is staff
-            bearer_token = response.json()['access_token']
-            response2 = requests.get(
+            bearer_token = token_response.json()['access_token']
+            profile_response = requests.get(
                 settings.OAUTH_PROFILE_URL,
                 headers={'Authorization': f'Bearer {bearer_token}'}
             )
-            if not response2.status_code == 200:
+            if not profile_response.status_code == 200:
                 raise exceptions.AuthenticationFailed('Failed to access user profile')
             user, _ = User.objects.update_or_create(
-                username=response2.json()['username'],
+                username=profile_response.json()['username'],
                 defaults={
-                    'is_superuser': response2.json()['is_staff'],
-                    'is_staff': response2.json()['is_staff']
+                    'is_superuser': profile_response.json()['is_staff'],
+                    'is_staff': profile_response.json()['is_staff']
                 }
             )
             return user

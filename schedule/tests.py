@@ -59,6 +59,7 @@ class TestDowntimeSerializer(TestCase):
             'telescope': '1m0a'
         }
         self.admin_user = User.objects.create_superuser('admin', 'admin@example.com', 'admin')
+        self.normal_user = User.objects.create_user('normal', 'normal@example.com', 'normal')
         self.client.force_login(self.admin_user)
 
     def test_post_downtime(self):
@@ -73,6 +74,14 @@ class TestDowntimeSerializer(TestCase):
         downtime = copy.deepcopy(self.base_downtime)
         self.assertEqual(Downtime.objects.count(), 0)
         self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+
+    def test_post_downtime_fails_if_not_admin_user(self):
+        self.client.force_login(self.normal_user)
+        downtime = copy.deepcopy(self.base_downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+        response = self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(response.status_code, 403)  # check that the request was forbidden
         self.assertEqual(Downtime.objects.count(), 0)
 
     def test_post_downtime_fails_invalid_site(self):

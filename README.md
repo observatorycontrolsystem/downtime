@@ -65,7 +65,11 @@ Run database migrations to set up the tables in the database.
 
 ### Run the tests
 
-    (env) python manage.py test
+First collect the staticfiles since some of the tests check the admin page functionality
+
+    (env) python manage.py collectstatic
+
+    (env) python manage.py test --settings=test_settings
 
 ### Run the application
 
