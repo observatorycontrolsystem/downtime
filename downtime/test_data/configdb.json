@@ -1,0 +1,73 @@
+{
+    "count": 9,
+    "next": null,
+    "previous": null,
+    "results": [
+      {
+        "code": "tst",
+        "elevation": 100,
+        "enclosure_set": [
+          {
+            "code": "doma",
+            "telescope_set": [
+              {
+                "code": "1m0a",
+                "name": "1 Meter"
+              },
+              {
+                "code": "2m0a",
+                "name": "2 Meter"
+              }
+            ]
+          },
+          {
+            "code": "domb",
+            "telescope_set": [
+              {
+                "code": "1m0a",
+                "name": "1 Meter"
+              },
+              {
+                "code": "2m0a",
+                "name": "2 Meter"
+              }
+            ]
+          },
+          {
+            "code": "domc",
+            "telescope_set": [
+              {
+                "code": "1m0a",
+                "name": "1 Meter"
+              }
+            ]
+          },
+          {
+            "code": "domd",
+            "telescope_set": [
+              {
+                "code": "1m0a",
+                "name": "1 Meter"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "code": "lco",
+        "elevation": 10,
+        "enclosure_set": [
+          {
+            "code": "doma",
+            "telescope_set": [
+              {
+                "code": "1m0a",
+                "name": "1 Meter"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -19,7 +19,7 @@ def submit_slots(filename, submit):
             if not row['Day']:
                 continue
 
-            observatory = 'clma'
+            enclosure = 'clma'
             site = row['Site'].lower()
             telescope = row['Tel']
 
@@ -33,10 +33,10 @@ def submit_slots(filename, submit):
             start = datetime.datetime.strptime(f'{year}-{month}-{day}T{start_time}', formatter)
             end = datetime.datetime.strptime(f'{year}-{month}-{day}T{end_time}', formatter)
 
-            print('Will submit:', start, end, site, observatory, telescope, 'where downtime is', (end-start).seconds/60, 'minutes long.')
+            print('Will submit:', start, end, site, enclosure, telescope, 'where downtime is', (end-start).seconds/60, 'minutes long.')
             if submit:
                 print('Submitting downtimes')
-                Downtime.objects.create(start=start, end=end, site=site, observatory=observatory, telescope=telescope, reason='RTI')
+                Downtime.objects.create(start=start, end=end, site=site, enclosure=enclosure, telescope=telescope, reason='RTI')
 
 
 if __name__ == '__main__':

@@ -13,11 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from schedule.views import DowntimeView
+from rest_framework.routers import DefaultRouter
+from schedule.views import DowntimeListView
+from schedule.viewsets import DowntimeViewSet
+
+
+router = DefaultRouter()
+router.register(r'', DowntimeViewSet, 'downtime')
 
 urlpatterns = [
-    url(r'^$', DowntimeView.as_view(), name='index'),
+    url(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
+    url(r'^api/', include(router.urls)),
     url(r'^admin/', admin.site.urls),
 ]

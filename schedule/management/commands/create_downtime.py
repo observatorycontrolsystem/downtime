@@ -49,7 +49,7 @@ class Command(BaseCommand):
 
         Downtime.objects.create(
             site=options['site'],
-            observatory=options['enclosure'],
+            enclosure=options['enclosure'],
             telescope=options['telescope'],
             reason=options['reason'],
             start=start,

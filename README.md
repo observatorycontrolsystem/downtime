@@ -8,10 +8,13 @@ An application with a database that stores periods of scheduled telescope downti
 API to access those downtimes. Within an observatory control system, downtimes can be used to block out time
 for things such as maintenance activites or education use on specific telescopes.
 
+
 ## Prerequisites
 
 -   Python>=3.6
 -   (Optional) PostgreSQL
+-   Configuration database to connect to
+-   (Optional) Observation Portal for Oauth2 authentication
 
 By default, the application uses a SQLite database. This is suitable for development, but PostgreSQL is
 recommended when running in production.
@@ -23,12 +26,19 @@ This project is configured using environment variables.
 | Variable             | Description                                                                        | Default                      |
 | -------------------- | ---------------------------------------------------------------------------------- | ---------------------------- |
 | `SECRET_KEY`         | Django Secret Key                                                                  | `### CHANGE ME ###`          |
+| `DEBUG`              | Django Debug mode                                                                  | False                        |
 | `DB_ENGINE`          | Database Engine, set to `django.db.backends.postgresql_psycopg2` to use PostgreSQL | `django.db.backends.sqlite3` |
 | `DB_NAME`            | Database Name                                                                      | `db.sqlite3`                 |
 | `DB_HOST`            | Database Hostname, set this when using PostgreSQL                                  | _empty string_               |
 | `DB_USER`            | Database Username, set this when using PostgreSQL                                  | _empty string_               |
 | `DB_PASS`            | Database Password, set this when using PostgreSQL                                  | _empty string_               |
 | `DB_PORT`            | Database Port, set this when using PostgreSQL                                      | `5432`                       |
+| `OAUTH_CLIENT_ID`    | OAuth authentication client id (found in observation portal admin for the app)     | ``                           |
+| `OAUTH_CLIENT_SECRET`| OAuth authentication client secret (found in observation portal admin for the app) | ``                           |
+| `OAUTH_TOKEN_URL`    | OAuth authentication token endpoint (observation-portal-base-url/o/token)          | ``                           |
+| `OAUTH_PROFILE_URL`  | Observation portal profile api endpoint (observation-portal-base-url/api/profile)  | ``                           |
+| `CONFIGDB_URL`       | Configuration database base url                                                    | ``                           |
+| `LOGO_URL`           | URL to a hosted logo to display in the navbar of the web frontend                  | ``                           |
 
 ## Local Development
 
@@ -55,7 +65,11 @@ Run database migrations to set up the tables in the database.
 
 ### Run the tests
 
-    (env) python manage.py test
+First collect the staticfiles since some of the tests check the admin page functionality
+
+    (env) python manage.py collectstatic
+
+    (env) python manage.py test --settings=test_settings
 
 ### Run the application
 
@@ -63,20 +77,21 @@ Run database migrations to set up the tables in the database.
 
 The application should now be accessible from <http://127.0.0.1:8000>!
 
+This application serves an api to read/write downtimes at /api/, and a filterable web frontend to view
+downtimes at /.
+
 ### Managing downtime entries
 
-Downtimes are added and deleted manually via the admin interface. In order to manage downtimes, you must
-first create a superuser. Run the following and fill out all of the questions:
-
-    (env) python manage.py createsuperuser
-
-You can then log in as the newly created superuser at <http://127.0.0.1:8000/admin/> to manage downtimes.
+Downtimes are added and deleted manually via the admin interface, or through the API via a POST to the /api/ endpoint.
+In both cases, you must authenticate as a valid staff/admin User via the Observation Portal to get write access.
+This is done with a user/pass form submission via the admin interface, or using HTTPBasicAuth with the user/pass
+as part of an API POST.
 
 There is also a django management command to create downtimes:
 
     (env) python manage.py create_downtime help
 
-## Example queries
+## Example API queries
 
 A downtime entry in the database is returned in JSON and has the following format:
 
@@ -84,27 +99,27 @@ A downtime entry in the database is returned in JSON and has the following forma
         "start": "2017-08-21T08:45:00Z",
         "end": "2017-08-21T09:45:00Z",
         "site": "coj",
-        "observatory": "clma",
+        "enclosure": "clma",
         "telescope": "0m4a",
         "reason": "Maintenance"
     }
 
 Return all downtimes
 
-    GET /
+    GET /api/
 
 Return the downtimes past a specific date:
 
-    GET /?start__gte=2017-11-27%2014:45:00
+    GET /api/?starts_after=2017-11-27%2014:45:00
 
 Return the downtimes before a specific date:
 
-    GET /?end__lte=2017-08-24%2015:15:00
+    GET /api/?ends_before=2017-08-24%2015:15:00
 
 Filter downtimes by reason:
 
-    GET /?reason=Maintenance
+    GET /api/?reason=Maintenance
 
-Filter downtimes by site, observatory and telescope:
+Filter downtimes by site, enclosure and telescope:
 
-    GET /?site=ogg&observatory=clma&telescope=0m4a
+    GET /api/?site=ogg&enclosure=clma&telescope=0m4a
