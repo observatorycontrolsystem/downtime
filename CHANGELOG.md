@@ -1,3 +1,8 @@
+## 2.3.0
+##### 2021-01-19
+
+* Rename some model fields and add Django Rest Framework
+
 ## 2.2.2
 ##### 2020-08-14
 
