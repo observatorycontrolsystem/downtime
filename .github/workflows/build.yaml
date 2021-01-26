@@ -25,6 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U coverage coveralls
         pip install -r requirements.txt
+        python manage.py collectstatic
     - name: Run tests
       run: |
         coverage run manage.py test --settings=test_settings
