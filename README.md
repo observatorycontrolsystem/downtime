@@ -1,6 +1,6 @@
 # Downtime Database
 
-[![Build Status](https://travis-ci.com/observatorycontrolsystem/downtime.svg?branch=master)](https://travis-ci.com/observatorycontrolsystem/downtime)
+![Build](https://github.com/observatorycontrolsystem/downtime/workflows/Build/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/observatorycontrolsystem/downtime/badge.svg?branch=master)](https://coveralls.io/github/observatorycontrolsystem/downtime?branch=master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7aa8dea066824e79bb7e681122598345)](https://www.codacy.com/gh/observatorycontrolsystem/downtime?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=observatorycontrolsystem/downtime&amp;utm_campaign=Badge_Grade)
 
