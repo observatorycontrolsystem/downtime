@@ -80,7 +80,19 @@ class ConfigDB(object):
             telescopes.append(('', ''))
         return telescopes
 
-    def telescope_exists(self, site_code, enclosure_code, telescope_code):
+    def get_instrument_type_tuples(self, include_blank=False):
+        instrument_types = set()
+        for site in self.get_site_data():
+            for enclosure in site['enclosure_set']:
+                for telescope in enclosure['telescope_set']:
+                    for instrument in telescope['instrument_set']:
+                        instrument_types.add(instrument['instrument_type']['code'].upper())
+
+        if include_blank:
+            instrument_types.add('')
+        return [(instrument_type, instrument_type) for instrument_type in instrument_types]
+
+    def instrument_exists(self, site_code, enclosure_code, telescope_code, instrument_type):
         site_data = self.get_site_data()
         for site in site_data:
             if site_code == site['code']:
@@ -88,7 +100,13 @@ class ConfigDB(object):
                     if enclosure_code == enclosure['code']:
                         for telescope in enclosure['telescope_set']:
                             if telescope_code == telescope['code']:
-                                return True
+                                if not instrument_type:
+                                    return True
+                                else:
+                                    for instrument in telescope['instrument_set']:
+                                        if instrument['instrument_type']['code'] == instrument_type:
+                                            return True
+
         return False
 
 

@@ -129,7 +129,7 @@ OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', '')
 OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', '')
 OAUTH_TOKEN_URL = os.getenv('OAUTH_TOKEN_URL', '')
 OAUTH_PROFILE_URL = os.getenv('OAUTH_PROFILE_URL', '')
-# This project connects to ConfigDB to validate the sites, enclosures, and telescopes
+# This project connects to ConfigDB to validate the sites, enclosures, and telescopes, and instrument_types
 CONFIGDB_URL = os.getenv('CONFIGDB_URL', '')
 
 
