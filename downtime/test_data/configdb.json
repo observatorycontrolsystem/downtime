@@ -12,11 +12,25 @@
             "telescope_set": [
               {
                 "code": "1m0a",
-                "name": "1 Meter"
+                "name": "1 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "1M0-SCICAM-SINISTRO"
+                    }
+                  }
+                ]
               },
               {
                 "code": "2m0a",
-                "name": "2 Meter"
+                "name": "2 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "2M0-SCICAM-MUSCAT"
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -25,11 +39,25 @@
             "telescope_set": [
               {
                 "code": "1m0a",
-                "name": "1 Meter"
+                "name": "1 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "1M0-SCICAM-SINISTRO"
+                    }
+                  }
+                ]
               },
               {
                 "code": "2m0a",
-                "name": "2 Meter"
+                "name": "2 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "2M0-SCICAM-MUSCAT"
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -38,7 +66,14 @@
             "telescope_set": [
               {
                 "code": "1m0a",
-                "name": "1 Meter"
+                "name": "1 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "1M0-SCICAM-SINISTRO"
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -47,7 +82,14 @@
             "telescope_set": [
               {
                 "code": "1m0a",
-                "name": "1 Meter"
+                "name": "1 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "1M0-SCICAM-SINISTRO"
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -62,7 +104,14 @@
             "telescope_set": [
               {
                 "code": "1m0a",
-                "name": "1 Meter"
+                "name": "1 Meter",
+                "instrument_set": [
+                  {
+                    "instrument_type": {
+                      "code": "1M0-SCICAM-SINISTRO"
+                    }
+                  }
+                ]
               }
             ]
           }
