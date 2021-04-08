@@ -18,6 +18,8 @@ class Command(BaseCommand):
                             help='Enclosure code (4 characters)')
         parser.add_argument('-t', '--telescope', default='1m0a', type=str,
                             help='Telescope code (4 characters)')
+        parser.add_argument('-i', '--instrument_type', default='', type=str,
+                            help='Instrument type to apply this downtime to, or empty string for all')
         parser.add_argument('-r', '--reason', default='Scheduled Maintenance', type=str,
                             help='Reason for downtime')
         parser.add_argument('--start', default=datetime.now(), type=datetime.fromisoformat,
@@ -51,9 +53,10 @@ class Command(BaseCommand):
             site=options['site'],
             enclosure=options['enclosure'],
             telescope=options['telescope'],
+            instrument_type=options['instrument_type'],
             reason=options['reason'],
             start=start,
             end=end
         )
-        logger.info(f"Created downtime on {options['site']}.{options['enclosure']}.{options['telescope']} at {start}")
+        logger.info(f"Created downtime on {options['site']}.{options['enclosure']}.{options['telescope']}.{options['instrument_type']} at {start}")
         sys.exit(0)
