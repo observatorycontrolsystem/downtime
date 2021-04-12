@@ -2,6 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
+from schedule.configdb import configdb
+
 
 class Downtime(models.Model):
     start = models.DateTimeField()
@@ -41,3 +43,6 @@ class Downtime(models.Model):
     def clean(self, *args, **kwargs):
         if self.start >= self.end:
             raise ValidationError(_('End time must be after start time'))
+
+        if not configdb.instrument_exists(self.site, self.enclosure, self.telescope, self.instrument_type):
+            raise ValidationError(_('The site, enclosure, telescope, and instrument_type combination does not exist in Configdb'))

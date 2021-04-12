@@ -86,7 +86,7 @@ class ConfigDB(object):
             for enclosure in site['enclosure_set']:
                 for telescope in enclosure['telescope_set']:
                     for instrument in telescope['instrument_set']:
-                        instrument_types.add(instrument['instrument_type']['code'].upper())
+                        instrument_types.add(instrument['instrument_type']['code'])
 
         if include_blank:
             instrument_types.add('')

@@ -58,5 +58,10 @@ class Command(BaseCommand):
             start=start,
             end=end
         )
-        logger.info(f"Created downtime on {options['site']}.{options['enclosure']}.{options['telescope']}.{options['instrument_type']} at {start}")
+
+        resource = f"{options['site']}.{options['enclosure']}.{options['telescope']}"
+        if options['instrument_type']:
+            resource += f".{options['instrument_type']}"
+
+        logger.info(f"Created downtime on {resource} at {start}")
         sys.exit(0)
