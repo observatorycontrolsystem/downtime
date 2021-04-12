@@ -20,8 +20,8 @@ class TestModelAdmin(TestCase):
         return {
             'reason': 'Maintenance',
             'site': 'tst',
-            'enclosure': 'domx',
-            'telescope': '1m0z',
+            'enclosure': 'doma',
+            'telescope': '1m0a',
             # POST data to the model admin add view expect that model fields that are
             # DateTimeFields are separated by date and time as follows
             'start_0': start.date(),
