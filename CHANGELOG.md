@@ -1,3 +1,8 @@
+## 2.3.2
+#### 2021-04-15
+
+* Add instrument_type as optional field for downtimes
+
 ## 2.3.1
 #### 2021-04-09
 
