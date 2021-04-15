@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import Downtime
+from schedule.models import Downtime
+from schedule.forms import DowntimeForm
 
 
 @admin.register(Downtime)
 class DowntimeAdmin(admin.ModelAdmin):
+    form = DowntimeForm
     list_display = (
         'id',
         'start',
@@ -13,8 +15,9 @@ class DowntimeAdmin(admin.ModelAdmin):
         'site',
         'enclosure',
         'telescope',
+        'instrument_type',
         'reason',
         'created',
         'modified',
     )
-    list_filter = ('start', 'end', 'created', 'modified', 'site', 'enclosure', 'telescope')
+    list_filter = ('start', 'end', 'created', 'modified', 'site', 'enclosure', 'telescope', 'instrument_type')

@@ -20,8 +20,8 @@ class TestModelAdmin(TestCase):
         return {
             'reason': 'Maintenance',
             'site': 'tst',
-            'enclosure': 'domx',
-            'telescope': '1m0z',
+            'enclosure': 'doma',
+            'telescope': '1m0a',
             # POST data to the model admin add view expect that model fields that are
             # DateTimeFields are separated by date and time as follows
             'start_0': start.date(),
@@ -68,6 +68,8 @@ class TestDowntimeSerializer(TestCase):
         response = self.client.post(reverse('downtime-list'), downtime)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Downtime.objects.count(), 1)
+        self.assertIn('instrument_type', response.json())
+        self.assertEqual(response.json()['instrument_type'], '')
 
     def test_post_downtime_fails_if_not_logged_in(self):
         self.client.logout()
@@ -93,6 +95,15 @@ class TestDowntimeSerializer(TestCase):
         self.assertIn('site', response.json())
         self.assertIn('"nop" is not a valid choice', response.json()['site'][0])
 
+    def test_post_downtime_fails_invalid_instrument_type(self):
+        downtime = copy.deepcopy(self.base_downtime)
+        downtime['instrument_type'] = 'nop' # this instrument_type doesnt exist in the test configdb data
+        self.assertEqual(Downtime.objects.count(), 0)
+        response = self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+        self.assertIn('instrument_type', response.json())
+        self.assertIn('"nop" is not a valid choice', response.json()['instrument_type'][0])
+
     def test_post_downtime_fails_invalid_telescope_combo(self):
         downtime = copy.deepcopy(self.base_downtime)
         # This combo doesn't exist in the test configdb data
@@ -102,7 +113,19 @@ class TestDowntimeSerializer(TestCase):
         self.assertEqual(Downtime.objects.count(), 0)
         response = self.client.post(reverse('downtime-list'), downtime)
         self.assertEqual(Downtime.objects.count(), 0)
-        self.assertIn('The site, enclosure, and telescope combination does not exist in Configdb', str(response.content))
+        self.assertIn('The site, enclosure, telescope, and instrument_type combination does not exist in Configdb', str(response.content))
+
+    def test_post_downtime_fails_invalid_instrument_type_combo(self):
+        downtime = copy.deepcopy(self.base_downtime)
+        # This combo doesn't exist in the test configdb data
+        downtime['site'] = 'lco'
+        downtime['enclosure'] = 'doma'
+        downtime['telescope'] = '2m0a'
+        downtime['instrument_type'] = '1M0-SCICAM-SINISTRO'
+        self.assertEqual(Downtime.objects.count(), 0)
+        response = self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+        self.assertIn('The site, enclosure, telescope, and instrument_type combination does not exist in Configdb', str(response.content))
 
     def test_post_downtime_fails_if_end_before_start(self):
         downtime = copy.deepcopy(self.base_downtime)
