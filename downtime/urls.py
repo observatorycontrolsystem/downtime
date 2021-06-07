@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
+from django.views.generic.base import TemplateView
 from rest_framework.routers import DefaultRouter
 from schedule.views import DowntimeListView
 from schedule.viewsets import DowntimeViewSet
@@ -34,4 +35,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^admin/', admin.site.urls),
     path('openapi/', schema_view, name='openapi-schema'),
-]
+    path('redoc/', TemplateView.as_view(
+        template_name='redoc.html',
+        extra_context={'schema_url':'openapi-schema'}
+    ), name='redoc')]

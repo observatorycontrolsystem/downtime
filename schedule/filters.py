@@ -24,7 +24,8 @@ class DowntimeFilter(django_filters.FilterSet):
             ('end', 'end'),
             ('modified', 'modified'),
             ('created', 'created'),
-        )
+        ),
+        label='order'
     )
 
     class Meta:
