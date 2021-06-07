@@ -21,6 +21,7 @@ from rest_framework.routers import DefaultRouter
 from schedule.views import DowntimeListView
 from schedule.viewsets import DowntimeViewSet
 from rest_framework.schemas import get_schema_view
+from rest_framework import permissions
 
 router = DefaultRouter()
 router.register(r'', DowntimeViewSet, 'downtime')
@@ -28,7 +29,11 @@ router.register(r'', DowntimeViewSet, 'downtime')
 schema_view = get_schema_view(
     title="Downtime API",
     description="An application with a database that stores periods of scheduled telescope downtime for an observatory with an API to access those downtimes",
-    version='2.3.2')
+    version='2.3.2',
+    permission_classes=[permissions.AllowAny,],
+    public=True,
+    authentication_classes=[]
+    )
 
 urlpatterns = [
     url(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),

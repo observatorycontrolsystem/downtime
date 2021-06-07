@@ -1,11 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+from rest_framework.schemas.openapi import AutoSchema
 
 from schedule.configdb import configdb
 
 
 class Downtime(models.Model):
+    schema=AutoSchema(tags=['Downtime'])
     start = models.DateTimeField()
     end = models.DateTimeField()
     site = models.CharField(max_length=3,
