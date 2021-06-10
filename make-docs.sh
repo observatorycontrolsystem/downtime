@@ -2,7 +2,7 @@
 echo "Getting started"
 
 # Generate OpenAPI yaml file
-python manage.py generateschema > downtime.yaml
+python manage.py generateschema_mocked --file downtime.yaml
 
 # Bundle docs into zero-dependency HTML file
 npx redoc-cli bundle downtime.yaml && \
