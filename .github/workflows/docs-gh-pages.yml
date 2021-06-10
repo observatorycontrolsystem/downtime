@@ -22,6 +22,7 @@ jobs:
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         external_repository: mgdaily/mgdaily-test-github-pages.github.io
+        publish_dir: docs
         destination_dir: docs
         publish_branch: main
         keep_files: true
