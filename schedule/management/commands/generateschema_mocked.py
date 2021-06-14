@@ -16,7 +16,6 @@ class Command(GenerateSchemaCommand):
         """
         super().__init__()
         # Mock out ConfigDB response for doc generation.
-        # TODO: Add mock ConfigDB dataset for docs across all projects
         responses._default_mock.__enter__()
         responses.add(
             responses.GET, settings.CONFIGDB_URL + '/sites/', match_querystring=True,
