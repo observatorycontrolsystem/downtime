@@ -20,7 +20,6 @@ jobs:
         python manage.py generateschema_mocked --file downtime.yaml
         npx redoc-cli bundle downtime.yaml
         mkdir docs; mv redoc-static.html docs/downtime.html
-      run: ./make-docs.sh
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3 # https://github.com/peaceiris/actions-gh-pages
       with:
