@@ -27,6 +27,7 @@ jobs:
         external_repository: observatorycontrolsystem/observatorycontrolsystem.github.io
         publish_dir: docs
         destination_dir: docs
+        enable_jekyll: true
         publish_branch: feature/openapi-doc
         keep_files: true
         exclude_assets: '.github,openapi,.redocly.yaml,LICENSE,README.md,make.sh'
