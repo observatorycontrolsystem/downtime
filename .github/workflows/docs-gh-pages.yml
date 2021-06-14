@@ -1,5 +1,5 @@
-# Extracted from https://github.com/jizt-it/jizt-api-spec/blob/main/.github/workflows/build-docs.yml
 name: Build docs
+# TODO: Change this to only push on tag on the main branch
 on:
   push:
     branches:
