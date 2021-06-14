@@ -6,10 +6,17 @@ from schedule.configdb import configdb
 
 
 class DowntimeSerializer(serializers.ModelSerializer):
-    site = serializers.ChoiceField(choices=configdb.get_site_tuples(), required=True)
-    enclosure = serializers.ChoiceField(choices=configdb.get_enclosure_tuples(), required=True)
-    telescope = serializers.ChoiceField(choices=configdb.get_telescope_tuples(), required=True)
-    instrument_type = serializers.ChoiceField(choices=configdb.get_instrument_type_tuples(include_blank=True), required=False)
+    #TODO: Make sure that adding the start/end in the serializer don't mess with creating a downtime
+    start = serializers.DateTimeField(help_text='Start date/time in `%Y-%m-%dT%H:%M:%S` format')
+    end = serializers.DateTimeField(help_text='End date/time in `%Y-%m-%dT%H:%M:%S` format')
+    site = serializers.ChoiceField(choices=configdb.get_site_tuples(), required=True, 
+                                   help_text='Site code to apply downtime on')
+    enclosure = serializers.ChoiceField(choices=configdb.get_enclosure_tuples(), required=True,
+                                        help_text='Enclosure code to apply downtime on')
+    telescope = serializers.ChoiceField(choices=configdb.get_telescope_tuples(), required=True,
+                                        help_text='Telescope code to apply downtime on')
+    instrument_type = serializers.ChoiceField(choices=configdb.get_instrument_type_tuples(include_blank=True), required=False,
+                                              help_text='Instrument type to apply downtime on')
 
     class Meta:
         model = Downtime
