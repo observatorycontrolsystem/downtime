@@ -24,7 +24,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3 # https://github.com/peaceiris/actions-gh-pages
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        external_repository: observatory-control-system/observatorycontrolsystem.github.io
+        external_repository: observatorycontrolsystem/observatorycontrolsystem.github.io
         publish_dir: docs
         destination_dir: docs
         publish_branch: feature/openapi-doc
