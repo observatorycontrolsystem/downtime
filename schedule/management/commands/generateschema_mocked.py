@@ -11,6 +11,9 @@ CONFIGDB_DOC_FILE = os.path.join(settings.BASE_DIR, 'downtime/test_data/doc_conf
 class Command(GenerateSchemaCommand):
     help = "Command to generate OpenAPI schema with external services mocked"
     def __init__(self):
+        """
+        Generate OpenAPI schema with mock ConfigDB data.
+        """
         super().__init__()
         # Mock out ConfigDB response for doc generation.
         # TODO: Add mock ConfigDB dataset for docs across all projects

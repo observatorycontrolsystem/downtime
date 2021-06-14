@@ -8,7 +8,7 @@ from schedule.configdb import configdb
 class DowntimeSerializer(serializers.ModelSerializer):
     start = serializers.DateTimeField(help_text='Start date/time in `%Y-%m-%dT%H:%M:%S` format')
     end = serializers.DateTimeField(help_text='End date/time in `%Y-%m-%dT%H:%M:%S` format')
-    site = serializers.ChoiceField(choices=configdb.get_site_tuples(), required=True, 
+    site = serializers.ChoiceField(choices=configdb.get_site_tuples(), required=True,
                                    help_text='Site code to apply downtime on')
     enclosure = serializers.ChoiceField(choices=configdb.get_enclosure_tuples(), required=True,
                                         help_text='Enclosure code to apply downtime on')
