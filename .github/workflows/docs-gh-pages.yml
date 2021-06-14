@@ -17,7 +17,7 @@ jobs:
         pip install -r requirements.txt
     - name: Build docs
       run: |
-        python manage.py generateschema_mocked --file downtime.yaml
+        python manage.py generateschema_mocked --file downtime.yaml --generator_class=downtime.schema.DowntimeSchemaGenerator
         npx redoc-cli bundle downtime.yaml
         mkdir docs; mv redoc-static.html docs/downtime.html
     - name: Deploy to GitHub Pages
