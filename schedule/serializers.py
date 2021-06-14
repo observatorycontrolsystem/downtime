@@ -6,7 +6,6 @@ from schedule.configdb import configdb
 
 
 class DowntimeSerializer(serializers.ModelSerializer):
-    #TODO: Make sure that adding the start/end in the serializer don't mess with creating a downtime
     start = serializers.DateTimeField(help_text='Start date/time in `%Y-%m-%dT%H:%M:%S` format')
     end = serializers.DateTimeField(help_text='End date/time in `%Y-%m-%dT%H:%M:%S` format')
     site = serializers.ChoiceField(choices=configdb.get_site_tuples(), required=True, 
