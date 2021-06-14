@@ -12,8 +12,8 @@ class Command(GenerateSchemaCommand):
     help = "Command to generate OpenAPI schema with external services mocked"
     def __init__(self):
         super().__init__()
-        # Mock out ConfigDB response for doc generation. 
-        # TODO: Need to remove all "enums" from generalized docs - we don't need OCS docs to include the contents of LCO's ConfigDB
+        # Mock out ConfigDB response for doc generation.
+        # TODO: Add mock ConfigDB dataset for docs across all projects
         responses._default_mock.__enter__()
         responses.add(
             responses.GET, settings.CONFIGDB_URL + '/sites/', match_querystring=True,
