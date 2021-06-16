@@ -7,7 +7,6 @@ from schedule.configdb import configdb
 
 
 class Downtime(models.Model):
-    schema=AutoSchema(tags=['Downtime'])
     start = models.DateTimeField()
     end = models.DateTimeField()
     site = models.CharField(max_length=3,
