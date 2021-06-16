@@ -16,7 +16,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "1M0-SCICAM-SINISTRO"
+                      "code": "1M0-INSTRUMENT-A"
                     }
                   }
                 ]
@@ -27,7 +27,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "2M0-SCICAM-MUSCAT"
+                      "code": "2M0-INSTRUMENT-A"
                     }
                   }
                 ]
@@ -43,7 +43,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "1M0-SCICAM-SINISTRO"
+                      "code": "1M0-INSTRUMENT-A"
                     }
                   }
                 ]
@@ -54,7 +54,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "2M0-SCICAM-MUSCAT"
+                      "code": "2M0-INSTRUMENT-A"
                     }
                   }
                 ]
@@ -70,7 +70,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "1M0-SCICAM-SINISTRO"
+                      "code": "1M0-INSTRUMENT-B"
                     }
                   }
                 ]
@@ -86,7 +86,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "1M0-SCICAM-SINISTRO"
+                      "code": "1M0-INSTRUMENT-B"
                     }
                   }
                 ]
@@ -96,8 +96,8 @@
         ]
       },
       {
-        "code": "lsc",
-        "elevation": 2198,
+        "code": "lun",
+        "elevation": 384,
         "enclosure_set": [
           {
             "code": "doma",
@@ -108,7 +108,7 @@
                 "instrument_set": [
                   {
                     "instrument_type": {
-                      "code": "1M0-SCICAM-SINISTRO"
+                      "code": "1M0-INSTRUMENT-A"
                     }
                   }
                 ]
