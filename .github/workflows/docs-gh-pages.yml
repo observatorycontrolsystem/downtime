@@ -11,6 +11,9 @@ jobs:
       CONFIGDB_URL: http://configdb-dev
     steps:
     - uses: actions/checkout@v2
+    # By default, Github Actions checkout does a shallow clone and does not fetch tag information that we need for versioning.
+    - name: Retrieve git tags
+      run: git fetch --prune --unshallow --tags
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
