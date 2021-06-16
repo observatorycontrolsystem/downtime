@@ -12,7 +12,7 @@ class DowntimeSchemaGenerator(SchemaGenerator):
         schema['info']['version'] = get_version(version_scheme=self.version_scheme, local_scheme='no-local-version')
         return schema
 
-    def version_scheme(version: ScmVersion) -> str:
+    def version_scheme(self, version: ScmVersion) -> str:
         """
         Simply return the string representation of the version object's tag, which is the latest git tag. 
         e.g. '2.3.2'
