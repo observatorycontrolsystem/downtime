@@ -3,10 +3,8 @@ from setuptools_scm import get_version
 from setuptools_scm.version import ScmVersion
 
 def version_scheme(version: ScmVersion) -> str:
-    """
-    Simply return the string representation of the version object's tag, which is the latest git tag.
-    e.g. '2.3.2'
-    
+    """Simply return the string representation of the version object's tag, which is the latest git tag, e.g. '2.3.2'
+
     setuptools_scm does not provide a simple semantic versioning format without trying to guess the next release, or adding some metadata to the version.
     """
     return str(version.tag)
