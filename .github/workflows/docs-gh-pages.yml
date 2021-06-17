@@ -1,0 +1,38 @@
+name: Build docs
+on:
+  push:
+    branches:
+      - main
+  # Run this workflow when a tag or branch is created
+  create:
+jobs:
+  build:
+    if: github.event_name == 'create' && github.event.ref_type == 'tag' && github.event.repository.fork == false
+    runs-on: ubuntu-latest
+    env:
+      CONFIGDB_URL: http://configdb-dev
+    steps:
+    - uses: actions/checkout@v2
+    # By default, Github Actions checkout does a shallow clone and does not fetch tag information that we need for versioning.
+    - name: Retrieve git tags
+      run: git fetch --prune --unshallow --tags
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Build docs
+      run: |
+        python manage.py generateschema_mocked --file downtime.yaml --generator_class=downtime.schema.DowntimeSchemaGenerator
+        npx redoc-cli bundle downtime.yaml
+        mkdir docs; mv redoc-static.html docs/downtime.html
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3 # https://github.com/peaceiris/actions-gh-pages
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        external_repository: observatorycontrolsystem/observatorycontrolsystem.github.io
+        publish_branch: main
+        publish_dir: docs
+        destination_dir: docs
+        enable_jekyll: true
+        keep_files: true
+        exclude_assets: '.github,openapi,.redocly.yaml,LICENSE,README.md,make.sh'
