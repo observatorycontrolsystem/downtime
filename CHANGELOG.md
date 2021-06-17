@@ -1,3 +1,8 @@
+## 2.3.3
+#### 2021-06-17
+
+* Add automatic documentation generation
+
 ## 2.3.2
 #### 2021-04-15
 
