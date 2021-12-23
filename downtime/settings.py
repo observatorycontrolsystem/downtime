@@ -122,7 +122,7 @@ REST_FRAMEWORK = {
         'ocs_authentication.backends.OCSTokenAuthentication',  # Allows authentication against Oauth Servers api_token
         'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': ('ocs_authentication.permissions.IsAdminUserOrReadOnly',),
+    'DEFAULT_PERMISSION_CLASSES': ('ocs_authentication.permissions.IsAdminOrReadOnly',),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
