@@ -1,3 +1,8 @@
+## 2.4.0
+#### 2022-02-24
+
+* Add in ocs-authentication library for the auth backend
+
 ## 2.3.3
 #### 2021-06-17
 
