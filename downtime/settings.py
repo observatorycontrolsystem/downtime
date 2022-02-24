@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
+    'ocs_authentication.auth_profile',
     'bootstrap4',
     'corsheaders',
     'schedule'
@@ -60,9 +62,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 AUTHENTICATION_BACKENDS = [
-   'django.contrib.auth.backends.ModelBackend',
-   'downtime.auth_backends.OAuth2Backend',  # Allows Oauth2 login with username/pass
+    'django.contrib.auth.backends.ModelBackend',
+    'ocs_authentication.backends.OAuthUsernamePasswordBackend',
 ]
 
 ROOT_URLCONF = 'downtime.urls'
@@ -115,23 +118,30 @@ CACHES = {
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
-    'DEFAULT_PERMISSION_CLASSES': ('downtime.permissions.IsAdminUserOrReadOnly',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'ocs_authentication.backends.OCSTokenAuthentication',  # Allows authentication against Oauth Servers api_token
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': ('ocs_authentication.permissions.IsAdminOrReadOnly',),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 1000,
 }
 
-
-# This project now requires connection to an OAuth server for authenticating users to make changes
-# In the OCS, this would be the Observation Portal backend
-OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', '')
-OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', '')
-OAUTH_TOKEN_URL = os.getenv('OAUTH_TOKEN_URL', '')
-OAUTH_PROFILE_URL = os.getenv('OAUTH_PROFILE_URL', '')
 # This project connects to ConfigDB to validate the sites, enclosures, and telescopes, and instrument_types
 CONFIGDB_URL = os.getenv('CONFIGDB_URL', '')
 
+# This project now requires connection to an OAuth server for authenticating users to make changes
+# In the OCS, this would be the Observation Portal backend
+OCS_AUTHENTICATION = {
+    'OAUTH_TOKEN_URL': os.getenv('OAUTH_TOKEN_URL', 'http://127.0.0.1:8000/o/token/'),
+    'OAUTH_PROFILE_URL': os.getenv('OAUTH_PROFILE_URL', 'http://127.0.0.1:8000/api/profile/'),
+    'OAUTH_CLIENT_ID': os.getenv('OAUTH_CLIENT_ID', ''),
+    'OAUTH_CLIENT_SECRET': os.getenv('OAUTH_CLIENT_SECRET', ''),
+    'OAUTH_SERVER_KEY': os.getenv('OAUTH_SERVER_KEY', ''),
+    'REQUESTS_TIMEOUT_SECONDS': 60
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

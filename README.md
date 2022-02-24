@@ -11,7 +11,7 @@ for things such as maintenance activites or education use on specific telescopes
 
 ## Prerequisites
 
--   Python>=3.6
+-   Python>=3.7
 -   (Optional) PostgreSQL
 -   Configuration database to connect to
 -   (Optional) Observation Portal for Oauth2 authentication

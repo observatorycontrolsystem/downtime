@@ -24,6 +24,7 @@ from rest_framework.schemas import get_schema_view
 from rest_framework import permissions
 
 from downtime.schema import DowntimeSchemaGenerator
+import ocs_authentication.auth_profile.urls as authprofile_urls
 
 router = DefaultRouter()
 router.register(r'', DowntimeViewSet, 'downtime')
@@ -39,6 +40,7 @@ urlpatterns = [
     url(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
     url(r'^api/', include(router.urls)),
     url(r'^admin/', admin.site.urls),
+    url(r'^authprofile/', include(authprofile_urls)),
     path('openapi/', schema_view, name='openapi-schema'),
     path('redoc/', TemplateView.as_view(
         template_name='redoc.html',
