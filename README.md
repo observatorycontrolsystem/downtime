@@ -29,16 +29,17 @@ This project is configured using environment variables.
 | `DEBUG`              | Django Debug mode                                                                  | False                        |
 | `DB_ENGINE`          | Database Engine, set to `django.db.backends.postgresql_psycopg2` to use PostgreSQL | `django.db.backends.sqlite3` |
 | `DB_NAME`            | Database Name                                                                      | `db.sqlite3`                 |
-| `DB_HOST`            | Database Hostname, set this when using PostgreSQL                                  | _empty string_               |
-| `DB_USER`            | Database Username, set this when using PostgreSQL                                  | _empty string_               |
-| `DB_PASS`            | Database Password, set this when using PostgreSQL                                  | _empty string_               |
+| `DB_HOST`            | Database Hostname, set this when using PostgreSQL                                  | `''`                         |
+| `DB_USER`            | Database Username, set this when using PostgreSQL                                  | `''`                         |
+| `DB_PASS`            | Database Password, set this when using PostgreSQL                                  | `''`                         |
 | `DB_PORT`            | Database Port, set this when using PostgreSQL                                      | `5432`                       |
-| `OAUTH_CLIENT_ID`    | OAuth authentication client id (found in observation portal admin for the app)     | ``                           |
-| `OAUTH_CLIENT_SECRET`| OAuth authentication client secret (found in observation portal admin for the app) | ``                           |
-| `OAUTH_TOKEN_URL`    | OAuth authentication token endpoint (observation-portal-base-url/o/token)          | ``                           |
-| `OAUTH_PROFILE_URL`  | Observation portal profile api endpoint (observation-portal-base-url/api/profile)  | ``                           |
-| `CONFIGDB_URL`       | Configuration database base url                                                    | ``                           |
-| `LOGO_URL`           | URL to a hosted logo to display in the navbar of the web frontend                  | ``                           |
+| `OAUTH_CLIENT_ID`    | OAuth authentication client id (found in observation portal admin for the app)     | `''`                         |
+| `OAUTH_CLIENT_SECRET`| OAuth authentication client secret (found in observation portal admin for the app) | `''`                         |
+| `OAUTH_TOKEN_URL`    | OAuth authentication token endpoint (observation-portal-base-url/o/token)          | `''`                         |
+| `OAUTH_PROFILE_URL`  | Observation portal profile api endpoint (observation-portal-base-url/api/profile)  | `''`                         |
+| `OAUTH_SERVER_KEY`   | Observation portal server secret key to authenticate calls from the server         | `''`                         |
+| `CONFIGDB_URL`       | Configuration database base url                                                    | `''`                         |
+| `LOGO_URL`           | URL to a hosted logo to display in the navbar of the web frontend                  | `''`                         |
 
 ## Local Development
 
