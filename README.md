@@ -43,14 +43,17 @@ This project is configured using environment variables.
 
 ## Local Development
 
-### **Set up a virtual environment**
+### **Poetry**
 
-Using a virtual environment is highly recommended. Run the following commands from the base of this project. `(env)`
-is used to denote commands that should be run using your virtual environment.
+Install Poetry using one of the methods described at https://python-poetry.org/docs/#installation.
 
-    python3 -m venv env
-    source env/bin/activate
-    (env) pip install -r requirements.txt
+For example, using pipx:
+
+    pipx install poetry
+
+Then install the project & its dependencies:
+
+    poetry install
 
 ### **Set up the database**
 
@@ -62,19 +65,19 @@ create a PostgreSQL database. Make sure that the options that you use to set up 
 
 Run database migrations to set up the tables in the database.
 
-    (env) python manage.py migrate
+    poetry run python manage.py migrate
 
 ### Run the tests
 
 First collect the staticfiles since some of the tests check the admin page functionality
 
-    (env) python manage.py collectstatic
+    poetry run python manage.py collectstatic
 
-    (env) python manage.py test --settings=test_settings
+    poetry run python manage.py test --settings=test_settings
 
 ### Run the application
 
-    (env) python manage.py runserver
+    poetry run python manage.py runserver
 
 The application should now be accessible from <http://127.0.0.1:8000>!
 
@@ -90,7 +93,7 @@ as part of an API POST.
 
 There is also a django management command to create downtimes:
 
-    (env) python manage.py create_downtime help
+    poetry run python manage.py create_downtime help
 
 ## Example API queries
 
