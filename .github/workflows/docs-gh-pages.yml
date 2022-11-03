@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    if: github.event_name == 'create' && github.event.ref_type == 'tag' && github.event.repository.fork == false
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'create' && github.event.ref_type == 'tag' && github.event.repository.fork == false
     runs-on: ubuntu-latest
     env:
       CONFIGDB_URL: http://configdb-dev
