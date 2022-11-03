@@ -1,13 +1,16 @@
-FROM python:3.7-alpine
+FROM python:3.9-alpine
 
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt .
-RUN  apk update && apk upgrade \ 
+COPY pyproject.toml poetry.toml poetry.lock .poetry-version ./
+RUN  apk update && apk upgrade \
         && apk --no-cache add bash git openssh \
         && apk --no-cache add postgresql-libs \
         && apk --no-cache add --virtual .build-deps gcc postgresql-dev musl-dev \
+        && pip --no-cache-dir install -U pip setuptools \
+        && pip --no-cache-dir install -r .poetry-version \
+        && poetry export > requirements.txt \
         && pip --no-cache-dir install -r requirements.txt \
         && apk --no-cache del .build-deps
 
