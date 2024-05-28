@@ -19,7 +19,7 @@ class DowntimeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Downtime
-        fields = ('start', 'end', 'site', 'enclosure', 'telescope', 'instrument_type', 'reason')
+        fields = ('id', 'start', 'end', 'site', 'enclosure', 'telescope', 'instrument_type', 'reason')
 
     def validate(self, data):
         if data['end'] <= data['start']:

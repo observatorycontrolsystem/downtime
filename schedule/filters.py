@@ -14,6 +14,7 @@ class DowntimeFilter(django_filters.FilterSet):
     telescope = django_filters.MultipleChoiceFilter(field_name='telescope', choices=sorted(configdb.get_telescope_tuples()), label='Telescope code')
     instrument_type = django_filters.MultipleChoiceFilter(field_name='instrument_type', choices=sorted(configdb.get_instrument_type_tuples()), label='Instrument type')
     reason = django_filters.CharFilter(field_name='reason', lookup_expr='icontains', label='Reason contains')
+    reason_exact = django_filters.CharFilter(field_name='reason', lookup_expr='exact', label='Reason exact')
     created_after = django_filters.DateTimeFilter(field_name='created', lookup_expr='gte', label='Created After')
     created_before = django_filters.DateTimeFilter(field_name='created', lookup_expr='lte', label='Created Before')
     modified_after = django_filters.DateTimeFilter(field_name='modified', lookup_expr='gte', label='Modified After')
