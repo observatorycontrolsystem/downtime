@@ -36,9 +36,17 @@ jobs:
         poetry run coverage run manage.py test --settings=test_settings
         poetry run coverage xml
     - name: Coveralls report
-      run: poetry run coveralls --service=github
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel: true
+  finish:
+    runs-on: ubuntu-latest
+    needs: run_tests
+    steps:
+      - name: Close parallel build
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
 
   build_and_publish_image:
     # Only run this job if the run_tests job has succeeded, and if
