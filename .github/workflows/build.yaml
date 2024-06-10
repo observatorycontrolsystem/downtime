@@ -32,7 +32,9 @@ jobs:
         poetry install
         poetry run python manage.py collectstatic
     - name: Run tests
-      run: poetry run coverage run manage.py test --settings=test_settings
+      run: |
+        poetry run coverage run manage.py test --settings=test_settings
+        poetry run coverage xml
     - name: Coveralls report
       run: poetry run coveralls --service=github
       env:
