@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from schedule.models import Downtime
 from schedule.configdb import configdb
@@ -19,7 +19,7 @@ class DowntimeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Downtime
-        fields = ('start', 'end', 'site', 'enclosure', 'telescope', 'instrument_type', 'reason')
+        fields = ('id', 'start', 'end', 'site', 'enclosure', 'telescope', 'instrument_type', 'reason')
 
     def validate(self, data):
         if data['end'] <= data['start']:

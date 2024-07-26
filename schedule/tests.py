@@ -78,13 +78,20 @@ class TestDowntimeSerializer(TestCase):
         self.client.post(reverse('downtime-list'), downtime)
         self.assertEqual(Downtime.objects.count(), 0)
 
-    def test_post_downtime_fails_if_not_admin_user(self):
+    def test_post_downtime_fails_if_not_authenticated_user(self):
+        self.client.logout()
+        downtime = copy.deepcopy(self.base_downtime)
+        self.assertEqual(Downtime.objects.count(), 0)
+        response = self.client.post(reverse('downtime-list'), downtime)
+        self.assertEqual(response.status_code, 401)  # check that the request was unauthorized
+        self.assertEqual(Downtime.objects.count(), 0)
+        # Now test for an authenticated normal user
         self.client.force_login(self.normal_user)
         downtime = copy.deepcopy(self.base_downtime)
         self.assertEqual(Downtime.objects.count(), 0)
         response = self.client.post(reverse('downtime-list'), downtime)
-        self.assertEqual(response.status_code, 403)  # check that the request was forbidden
-        self.assertEqual(Downtime.objects.count(), 0)
+        self.assertEqual(response.status_code, 201)  # check that the request worked
+        self.assertEqual(Downtime.objects.count(), 1)
 
     def test_post_downtime_fails_invalid_site(self):
         downtime = copy.deepcopy(self.base_downtime)

@@ -8,6 +8,7 @@ from schedule.filters import DowntimeFilter
 
 class DowntimeViewSet(viewsets.ModelViewSet):
     queryset = Downtime.objects.all()
+    http_method_names = ['get', 'post', 'delete', 'head', 'options']
     serializer_class = DowntimeSerializer
     filter_class = DowntimeFilter
     filter_backends = (
