@@ -13,8 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.urls import path
+from django.urls import path, re_path, include
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from rest_framework.routers import DefaultRouter
@@ -37,10 +36,10 @@ schema_view = get_schema_view(
     )
 
 urlpatterns = [
-    url(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
-    url(r'^api/', include(router.urls)),
-    url(r'^admin/', admin.site.urls),
-    url(r'^authprofile/', include(authprofile_urls)),
+    re_path(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
+    re_path(r'^api/', include(router.urls)),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^authprofile/', include(authprofile_urls)),
     path('openapi/', schema_view, name='openapi-schema'),
     path('redoc/', TemplateView.as_view(
         template_name='redoc.html',
