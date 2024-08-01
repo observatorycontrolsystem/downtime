@@ -1,3 +1,10 @@
+## 2.4.4
+#### 2024-08-01
+
+* Support for any authenticated user submitted to api
+* Support for filtering by exact reason
+* Updated all dependencies to latest
+
 ## 2.4.0
 #### 2022-02-24
 
