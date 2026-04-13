@@ -68,6 +68,8 @@ AUTHENTICATION_BACKENDS = [
     'ocs_authentication.backends.OAuthUsernamePasswordBackend',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 ROOT_URLCONF = 'downtime.urls'
 
 TEMPLATES = [
@@ -131,6 +133,8 @@ REST_FRAMEWORK = {
 
 # This project connects to ConfigDB to validate the sites, enclosures, and telescopes, and instrument_types
 CONFIGDB_URL = os.getenv('CONFIGDB_URL', '')
+# This project connects to Observation Portal to figure out semester boundaries for uptime calculations
+OBS_PORTAL_URL = os.getenv('OBS_PORTAL_URL', 'http://127.0.0.1:8000')
 
 # This project now requires connection to an OAuth server for authenticating users to make changes
 # In the OCS, this would be the Observation Portal backend

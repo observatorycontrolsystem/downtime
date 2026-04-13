@@ -6,6 +6,7 @@
       {
         "code": "tst",
         "elevation": 100,
+        "timezone": 0,
         "enclosure_set": [
           {
             "code": "doma",
@@ -13,10 +14,22 @@
               {
                 "code": "1m0a",
                 "name": "1 Meter",
+                "aperture": 1.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
                       "code": "1M0-SCICAM-SINISTRO"
+                    }
+                  },
+                  {
+                    "instrument_type": {
+                      "code": "1M0-SCICAM-SBIG"
                     }
                   }
                 ]
@@ -24,6 +37,13 @@
               {
                 "code": "2m0a",
                 "name": "2 Meter",
+                "aperture": 2.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
@@ -40,6 +60,13 @@
               {
                 "code": "1m0a",
                 "name": "1 Meter",
+                "aperture": 1.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
@@ -51,6 +78,13 @@
               {
                 "code": "2m0a",
                 "name": "2 Meter",
+                "aperture": 2.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
@@ -67,6 +101,13 @@
               {
                 "code": "1m0a",
                 "name": "1 Meter",
+                "aperture": 1.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
@@ -83,6 +124,13 @@
               {
                 "code": "1m0a",
                 "name": "1 Meter",
+                "aperture": 1.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
@@ -98,6 +146,7 @@
       {
         "code": "lco",
         "elevation": 10,
+        "timezone": -4,
         "enclosure_set": [
           {
             "code": "doma",
@@ -105,6 +154,13 @@
               {
                 "code": "1m0a",
                 "name": "1 Meter",
+                "aperture": 1.0,
+                "lat": -32.3805542,
+                "long": 20.8100352,
+                "horizon": 15.0,
+                "ha_limit_pos": 4.6,
+                "ha_limit_neg": -4.6,
+                "zenith_blind_spot": 0.0,
                 "instrument_set": [
                   {
                     "instrument_type": {
