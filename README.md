@@ -127,3 +127,19 @@ Filter downtimes by reason:
 Filter downtimes by site, enclosure and telescope:
 
     GET /api/?site=ogg&enclosure=clma&telescope=0m4a
+
+Submit a set of Uptime days for an instrument_type
+
+    payload: [{
+        'site': 'tst',
+        'enclosure': 'doma',
+        'telescope': '1m0a',
+        'instrument_type': '1M0-SCICAM-SINISTRO',
+        'reason': 'Unavailable for AEON',
+        'uptimes': [{'day': '2024-01-01', 'portion_of_night': 'all', 'remove': False, 'late_start': 0, 'early_end': 0}, {'day': '2024-01-05'}, ...],
+    }, ...]
+    POST /api/uptime/
+
+Get a set of uptime intervals for an instrument_type
+
+    GET /api/uptime/?site=tst&enclosure=doma&telescope=1m0a&instrument_type=1M0-SCICAM-SINISTRO
