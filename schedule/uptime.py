@@ -168,10 +168,10 @@ def modify_schedule_with_uptimes(uptimes_group: list):
             if uptimes_to_remove:
                 intervalset_to_remove = Intervals(uptimes_to_remove)
                 existing_uptimes = existing_uptimes.subtract(intervalset_to_remove)
-            
+
             # Inverse the set of available intervals within the semester bounds of their datetime (from obs portal) to get a set of downtimes
             existing_uptimes.complement(semester['start'], semester['end'])
-    
+
             # In a single database transaction, delete the existing downtimes within the semester bounds for this instrument type, and create the new set.
             replace_schedule_for_semester(uptime_group['site'], uptime_group['enclosure'], uptime_group['telescope'],
                                           uptime_group['instrument_type'], uptime_group['reason'],
