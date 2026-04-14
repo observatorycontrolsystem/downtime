@@ -18,11 +18,13 @@ class UptimeException(Exception):
 
 
 def get_semesters(date_from: datetime, date_to: datetime):
-    ''' Gets the set of semesters from the Observation Portal that includes the range of dates specified
-        Returns a list of semesters, even if there is only one
-    '''
+    """
+    Gets the set of semesters from the Observation Portal that includes the range of dates specified.
+
+    Returns a list of semesters, even if there is only one.
+    """
     try:
-        response = requests.get(settings.OBS_PORTAL_URL + f'/api/semesters/?end_gt={date_from.isoformat()}&start_lte={date_to.isoformat()}')
+        response = requests.get(settings.OBS_PORTAL_URL + f'/api/semesters/?end_gt={date_from.isoformat()}&start_lte={date_to.isoformat()}', timeout=120)
         response.raise_for_status()
         # convert semester bounds to python dates
         results = response.json()['results']
@@ -47,9 +49,11 @@ def get_existing_uptimes_for_semester(site: str, enclosure: str, telescope: str,
 
 def convert_downtimes_to_uptimes(downtimes, date_from, date_to):
     """
-        Takes in a queryset of downtimes, and a bounding date range, and returns an Intervals set of
-        the complement, i.e. the uptimes within that bounding date range.
-        If bounding dates are not specified, attempt to use Downtimes themselves to get the bounding range
+    Converts downtimes to uptimes.
+
+    Takes in a queryset of downtimes, and a bounding date range, and returns an Intervals set of
+    the complement, i.e. the uptimes within that bounding date range.
+    If bounding dates are not specified, attempt to use Downtimes themselves to get the bounding range.
     """
     intervals = []
     for downtime in downtimes:
@@ -65,9 +69,12 @@ def convert_downtimes_to_uptimes(downtimes, date_from, date_to):
 
 def replace_schedule_for_semester(site: str, enclosure: str, telescope: str, instrument_type: str,
                                   reason: str, downtime_intervals: list, semester: dict):
-    ''' This function takes in a list of intervals of downtime for a specific resource and a semester
-        and in an atomic transaction deletes all existing downtimes on that resource and creates the new ones
-    '''
+    """
+    Replaces current semester schedule on resource with new set of downtime intervals.
+
+    This function takes in a list of intervals of downtime for a specific resource and a semester
+    and in an atomic transaction deletes all existing downtimes on that resource and creates the new ones.
+    """
     downtimes = []
     for interval in downtime_intervals:
         downtimes.append(Downtime(
@@ -87,9 +94,12 @@ def replace_schedule_for_semester(site: str, enclosure: str, telescope: str, ins
 
 
 def modify_schedule_with_uptimes(uptimes_group: list):
-    ''' Takes output of UptimesSerializer and calculates the exact uptime windows using rise_set, then merges
-        those windows with the existing downtimes, then replaces the set of downtimes for the semester and resource
-    '''
+    """
+    Modifies existing downtimes based on input uptimes on resources.
+
+    Takes output of UptimesSerializer and calculates the exact uptime windows using rise_set, then merges
+    those windows with the existing downtimes, then replaces the set of downtimes for the semester and resource.
+    """
     # Do the following for each unique set of site/enclosure/telescope/instrument_type:
     for uptime_group in uptimes_group:
         tz = configdb.get_site_timezone(uptime_group['site'])
@@ -134,7 +144,7 @@ def modify_schedule_with_uptimes(uptimes_group: list):
                 interval = (interval[0] + late_start, interval[1] - early_end)
             # Place the rise_set adjusted night interval into the uptime object to use later
             uptime['interval'] = interval
-        
+
         # Get the semester(s) bounds that these requested changes are within
         semesters = get_semesters(earliest_date.replace(tzinfo=None), latest_date.replace(tzinfo=None))
         # Then get the existing downtimes within the semester bounds (from obs portal) of all these
@@ -148,7 +158,7 @@ def modify_schedule_with_uptimes(uptimes_group: list):
             uptimes_to_remove = []
             uptimes_to_add = []
             for uptime in uptime_group['uptimes']:
-                # If this uptime change is 
+                # If this uptime change is within the current semester, then do something with it
                 if semester['start'] <= datetime.combine(uptime['day'], time(0)).replace(tzinfo=timezone.utc) <= semester['end']:
                     if uptime['remove']:
                         uptimes_to_remove.append(uptime['interval'])
