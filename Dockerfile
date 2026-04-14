@@ -5,7 +5,7 @@ WORKDIR /app
 # Install Python dependencies
 COPY pyproject.toml poetry.toml poetry.lock .poetry-version ./
 RUN  apk update && apk upgrade \
-        && apk --no-cache add bash git openssh \
+        && apk --no-cache add bash git openssh gcc gfortran \
         && apk --no-cache add postgresql-libs \
         && apk --no-cache add --virtual .build-deps gcc postgresql-dev musl-dev \
         && pip --no-cache-dir install -U pip setuptools \

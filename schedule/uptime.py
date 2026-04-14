@@ -153,7 +153,7 @@ def modify_schedule_with_uptimes(uptimes_group: list):
             existing_uptimes = get_existing_uptimes_for_semester(
                 uptime_group['site'], uptime_group['enclosure'], uptime_group['telescope'],
                 uptime_group['instrument_type'], semester)
-    
+
             # add in the new ones to add, and subtract out the new ones to remove
             uptimes_to_remove = []
             uptimes_to_add = []
