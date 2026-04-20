@@ -11,6 +11,7 @@ from time_intervals.intervals import Intervals
 
 
 HOURS_PER_DEGREES = 15
+AFTERNOON_HOUR = 15  # 3 PM taken as a guarenteed local time before start of night
 
 
 class UptimeException(Exception):
@@ -116,7 +117,8 @@ def modify_schedule_with_uptimes(uptimes_group: list):
         latest_date = datetime.min.replace(tzinfo=timezone.utc)
         for uptime in uptime_group['uptimes']:
             # Translate the day into a start time before the start of night in UTC for that site
-            start = datetime.combine(uptime['day'], time(22 + tz)).replace(tzinfo=timezone.utc)
+            # We do this by first converting a local "day" to local datetime before the start of night
+            start = (datetime.combine(uptime['day'], time(AFTERNOON_HOUR)) - timedelta(hours=tz)).replace(tzinfo=timezone.utc)
             # Keep track of the earliest and latest dates we want to set for this resource
             # To help us figure out the semester(s) these changes are within later
             earliest_date = min(start, earliest_date)
