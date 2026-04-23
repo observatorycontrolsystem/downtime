@@ -448,6 +448,15 @@ class TestUptimeSerializer(TestCase):
         self.assertIn('"INVALID" is not a valid choice', error['instrument_type'][0])
         self.assertEqual(Downtime.objects.count(), 0)
 
+    def test_post_uptime_without_instrument_type_succeeds(self):
+        # instrument_type is optional; omitting it defaults to blank, which means all instruments on the telescope
+        group = self._make_uptime_group([{'day': '2020-10-10'}])
+        del group['instrument_type']
+        response = self.client.post(reverse('uptime'), json.dumps([group]), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertGreater(Downtime.objects.count(), 0)
+        self.assertTrue(Downtime.objects.filter(instrument_type='').exists())
+
     def test_post_uptime_fails_invalid_site_enclosure_telescope_instrument_type_combo(self):
         # 2M0-SCICAM-MUSCAT is a valid instrument type but only exists on tst/doma/2m0a,
         # not on tst/doma/1m0a — so this combination fails cross-field validation
@@ -456,6 +465,59 @@ class TestUptimeSerializer(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('tst.doma.1m0a.2M0-SCICAM-MUSCAT does not exist in Configdb', str(response.content))
         self.assertEqual(Downtime.objects.count(), 0)
+
+    def test_get_uptime_fails_without_required_params(self):
+        response = self.client.get(reverse('uptime'), {'site': 'tst'})
+        self.assertEqual(response.status_code, 400)
+        error = response.json()
+        self.assertIn('start', error)
+        self.assertIn('end', error)
+
+    def test_get_uptime_returns_empty_when_no_downtimes_exist(self):
+        response = self.client.get(reverse('uptime'), {
+            'site': 'tst',
+            'enclosure': 'doma',
+            'telescope': '1m0a',
+            'instrument_type': '1M0-SCICAM-SINISTRO',
+            'start': '2020-10-10T00:00:00Z',
+            'end': '2020-10-13T00:00:00Z',
+        })
+        self.assertEqual(response.status_code, 200)
+        # No downtimes means the full range is treated as downtime, so no uptime windows are returned
+        self.assertEqual(response.json()['uptimes'], [])
+
+    def test_get_uptime_filters_by_instrument_type(self):
+        # POST different uptime nights for two instrument types on the same telescope
+        post_data = [
+            self._make_uptime_group([{'day': '2020-10-10'}], instrument_type='1M0-SCICAM-SINISTRO'),
+            self._make_uptime_group([{'day': '2020-10-11'}], instrument_type='1M0-SCICAM-SBIG'),
+        ]
+        response = self.client.post(reverse('uptime'), json.dumps(post_data), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        # GET uptimes for SINISTRO only — should see Oct 10's night, not Oct 11's
+        sinistro_response = self.client.get(reverse('uptime'), {
+            'site': 'tst', 'enclosure': 'doma', 'telescope': '1m0a',
+            'instrument_type': '1M0-SCICAM-SINISTRO',
+            'start': '2020-10-10T00:00:00Z',
+            'end': '2020-10-12T00:00:00Z',
+        })
+        self.assertEqual(sinistro_response.status_code, 200)
+        sinistro_uptimes = sinistro_response.json()['uptimes']
+        self.assertEqual(len(sinistro_uptimes), 1)
+        self.assertEqual(datetime.fromisoformat(sinistro_uptimes[0][0].replace('Z', '+00:00')).date(), date(2020, 10, 10))
+
+        # GET uptimes for SBIG only — should see Oct 11's night, not Oct 10's
+        sbig_response = self.client.get(reverse('uptime'), {
+            'site': 'tst', 'enclosure': 'doma', 'telescope': '1m0a',
+            'instrument_type': '1M0-SCICAM-SBIG',
+            'start': '2020-10-10T00:00:00Z',
+            'end': '2020-10-12T00:00:00Z',
+        })
+        self.assertEqual(sbig_response.status_code, 200)
+        sbig_uptimes = sbig_response.json()['uptimes']
+        self.assertEqual(len(sbig_uptimes), 1)
+        self.assertEqual(datetime.fromisoformat(sbig_uptimes[0][0].replace('Z', '+00:00')).date(), date(2020, 10, 11))
 
     def test_post_uptime_fails_when_get_semesters_raises(self):
         from schedule.uptime import UptimeException

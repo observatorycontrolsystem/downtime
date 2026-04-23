@@ -105,7 +105,7 @@ def modify_schedule_with_uptimes(uptimes_group: list):
     for uptime_group in uptimes_group:
         tz = configdb.get_site_timezone(uptime_group['site'])
         telescope_info = configdb.get_telescope_info(uptime_group['site'], uptime_group['enclosure'],
-                                                     uptime_group['telescope'], uptime_group['instrument_type'])
+                                                     uptime_group['telescope'])
         rise_set_site = {
             'latitude': Angle(degrees=telescope_info['latitude']),
             'longitude': Angle(degrees=telescope_info['longitude']),
@@ -154,7 +154,7 @@ def modify_schedule_with_uptimes(uptimes_group: list):
         for semester in semesters:
             existing_uptimes = get_existing_uptimes_for_semester(
                 uptime_group['site'], uptime_group['enclosure'], uptime_group['telescope'],
-                uptime_group['instrument_type'], semester)
+                uptime_group.get('instrument_type', ''), semester)
 
             # add in the new ones to add, and subtract out the new ones to remove
             uptimes_to_remove = []
@@ -176,5 +176,5 @@ def modify_schedule_with_uptimes(uptimes_group: list):
 
             # In a single database transaction, delete the existing downtimes within the semester bounds for this instrument type, and create the new set.
             replace_schedule_for_semester(uptime_group['site'], uptime_group['enclosure'], uptime_group['telescope'],
-                                          uptime_group['instrument_type'], uptime_group['reason'],
+                                          uptime_group.get('instrument_type', ''), uptime_group['reason'],
                                           existing_uptimes.toTupleList(), semester)

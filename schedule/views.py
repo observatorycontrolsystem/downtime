@@ -59,9 +59,7 @@ class UptimeView(APIView):
             downtimes = Downtime.objects.filter(end__gte=params['start'], start__lte=params['end'],
                                                 site=params['site'], enclosure=params['enclosure'],
                                                 telescope=params['telescope'],
-                                                instrument_type=params['instrument_type'])
-            if params.get('reason'):
-                downtimes = downtimes.filter(reason__icontains=params['reason'])
+                                                instrument_type=params.get('instrument_type', ''))
 
             uptimes = convert_downtimes_to_uptimes(downtimes, params['start'], params['end'])
             response = params

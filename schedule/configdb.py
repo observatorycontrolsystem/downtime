@@ -115,7 +115,7 @@ class ConfigDB(object):
 
         return False
 
-    def get_telescope_info(self, site_code, enclosure_code, telescope_code, instrument_type):
+    def get_telescope_info(self, site_code, enclosure_code, telescope_code):
         site_data = self.get_site_data()
         for site in site_data:
             if site['code'] == site_code:
@@ -123,16 +123,14 @@ class ConfigDB(object):
                     if enclosure['code'] == enclosure_code:
                         for telescope in enclosure['telescope_set']:
                             if telescope['code'] == telescope_code:
-                                for instrument in telescope['instrument_set']:
-                                    if instrument['instrument_type']['code'] == instrument_type:
-                                        return {
-                                            'latitude': telescope['lat'],
-                                            'longitude': telescope['long'],
-                                            'horizon': telescope['horizon'],
-                                            'ha_limit_neg': telescope['ha_limit_neg'],
-                                            'ha_limit_pos': telescope['ha_limit_pos'],
-                                        }
-        raise Exception(f'{site_code}.{enclosure_code}.{telescope_code}.{instrument_type} is not in configdb!')
+                                return {
+                                    'latitude': telescope['lat'],
+                                    'longitude': telescope['long'],
+                                    'horizon': telescope['horizon'],
+                                    'ha_limit_neg': telescope['ha_limit_neg'],
+                                    'ha_limit_pos': telescope['ha_limit_pos'],
+                                }
+        raise Exception(f'{site_code}.{enclosure_code}.{telescope_code} is not in configdb!')
 
 
 

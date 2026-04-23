@@ -48,12 +48,13 @@ class UptimesSerializer(serializers.Serializer):
                                         help_text='Enclosure code to apply downtime on')
     telescope = serializers.ChoiceField(choices=configdb.get_telescope_tuples(), required=True,
                                         help_text='Telescope code to apply downtime on')
-    instrument_type = serializers.ChoiceField(choices=configdb.get_instrument_type_tuples(include_blank=False), required=True,
+    instrument_type = serializers.ChoiceField(choices=configdb.get_instrument_type_tuples(include_blank=False), required=False,
                                                       allow_blank=True, help_text='Instrument type to apply downtime on')
 
     def validate(self, data):
-        if not configdb.instrument_exists(data['site'], data['enclosure'], data['telescope'], data['instrument_type']):
-            raise serializers.ValidationError(_(f'The site, enclosure, telescope, and instrument_type combination {data["site"]}.{data["enclosure"]}.{data["telescope"]}.{data["instrument_type"]} does not exist in Configdb'))
+        instrument_type = data.get('instrument_type', '')
+        if not configdb.instrument_exists(data['site'], data['enclosure'], data['telescope'], instrument_type):
+            raise serializers.ValidationError(_(f'The site, enclosure, telescope, and instrument_type combination {data["site"]}.{data["enclosure"]}.{data["telescope"]}.{instrument_type} does not exist in Configdb'))
 
         return super().validate(data)
 
@@ -61,12 +62,11 @@ class UptimesSerializer(serializers.Serializer):
 class GetUptimesSerializer(serializers.Serializer):
     start = serializers.DateTimeField(help_text='Start date/time in `%Y-%m-%dT%H:%M:%S` format', required=True)
     end = serializers.DateTimeField(help_text='End date/time in `%Y-%m-%dT%H:%M:%S` format', required=True)
-    reason = serializers.CharField(help_text='A short description of what this downtime represents', required=False)
     site = serializers.ChoiceField(choices=configdb.get_site_tuples(), required=True,
                                    help_text='Site code to apply downtime on')
     enclosure = serializers.ChoiceField(choices=configdb.get_enclosure_tuples(), required=True,
                                         help_text='Enclosure code to apply downtime on')
     telescope = serializers.ChoiceField(choices=configdb.get_telescope_tuples(), required=True,
                                         help_text='Telescope code to apply downtime on')
-    instrument_type = serializers.ChoiceField(choices=configdb.get_instrument_type_tuples(include_blank=False), required=True,
+    instrument_type = serializers.ChoiceField(choices=configdb.get_instrument_type_tuples(include_blank=False), required=False,
                                                       allow_blank=True, help_text='Instrument type to apply downtime on')
