@@ -170,7 +170,7 @@ class TestUptimeSerializer(TestCase):
     @staticmethod
     def _make_uptime_group(uptimes, instrument_type='1M0-SCICAM-SINISTRO', site='tst',
                            enclosure='doma', telescope='1m0a', reason='Test uptime'):
-        """Build one uptime group dict for the /api/uptime/ POST payload."""
+        """Build one uptime group dict for the /api/uptimes/ POST payload."""
         return {
             'site': site,
             'enclosure': enclosure,
@@ -190,7 +190,7 @@ class TestUptimeSerializer(TestCase):
             {'day': '2020-10-12'},
         ])]
         self.assertEqual(Downtime.objects.count(), 0)
-        response = self.client.post(reverse('uptime'), json.dumps(data), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         # The 3 uptime nights plus the semester bounds should produce 4 downtime periods:
@@ -232,7 +232,7 @@ class TestUptimeSerializer(TestCase):
             {'day': '2020-10-10'},
             {'day': '2020-10-11'},
         ])]
-        response = self.client.post(reverse('uptime'), json.dumps(data), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         # The 2 uptime nights carved out of the semester-wide downtime should produce 3 downtime periods:
@@ -255,7 +255,7 @@ class TestUptimeSerializer(TestCase):
     def test_remove_flag_removes_uptime_day(self):
         # Add Oct 10 as an uptime day, producing 2 downtime periods
         response = self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10'}])]),
             content_type='application/json'
         )
@@ -264,7 +264,7 @@ class TestUptimeSerializer(TestCase):
 
         # Remove Oct 10 using the remove flag
         response = self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10', 'remove': True}])]),
             content_type='application/json'
         )
@@ -282,7 +282,7 @@ class TestUptimeSerializer(TestCase):
             {'day': '2020-10-10', 'portion_of_night': 'first_half'},
             {'day': '2020-10-10', 'portion_of_night': 'second_half'},
         ])]
-        response = self.client.post(reverse('uptime'), json.dumps(data_halves), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data_halves), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         downtimes_halves = list(Downtime.objects.order_by('start'))
         self.assertEqual(len(downtimes_halves), 2)
@@ -292,7 +292,7 @@ class TestUptimeSerializer(TestCase):
         # Reset and add Oct 10 as a full night using 'all'
         Downtime.objects.all().delete()
         data_all = [self._make_uptime_group([{'day': '2020-10-10', 'portion_of_night': 'all'}])]
-        response = self.client.post(reverse('uptime'), json.dumps(data_all), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data_all), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         downtimes_all = list(Downtime.objects.order_by('start'))
         self.assertEqual(len(downtimes_all), 2)
@@ -304,7 +304,7 @@ class TestUptimeSerializer(TestCase):
     def test_late_start_enlarges_pre_night_downtime(self):
         # Add Oct 10 with default late_start=0 and record when the uptime window begins
         self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10'}])]),
             content_type='application/json'
         )
@@ -313,7 +313,7 @@ class TestUptimeSerializer(TestCase):
         # Reset and add Oct 10 with late_start=60 minutes
         Downtime.objects.all().delete()
         self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10', 'late_start': 60}])]),
             content_type='application/json'
         )
@@ -325,7 +325,7 @@ class TestUptimeSerializer(TestCase):
     def test_early_end_enlarges_post_night_downtime(self):
         # Add Oct 10 with default early_end=0 and record when the uptime window ends
         self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10'}])]),
             content_type='application/json'
         )
@@ -334,7 +334,7 @@ class TestUptimeSerializer(TestCase):
         # Reset and add Oct 10 with early_end=60 minutes
         Downtime.objects.all().delete()
         self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10', 'early_end': 60}])]),
             content_type='application/json'
         )
@@ -350,7 +350,7 @@ class TestUptimeSerializer(TestCase):
             self._make_uptime_group([{'day': '2020-10-10'}], instrument_type='1M0-SCICAM-SBIG'),
         ]
         self.assertEqual(Downtime.objects.count(), 0)
-        response = self.client.post(reverse('uptime'), json.dumps(data), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         # Each instrument type should produce its own independent set of 2 downtime periods
@@ -375,11 +375,11 @@ class TestUptimeSerializer(TestCase):
             {'day': '2020-10-11'},
             {'day': '2020-10-12'},
         ])]
-        post_response = self.client.post(reverse('uptime'), json.dumps(post_data), content_type='application/json')
+        post_response = self.client.post(reverse('uptimes'), json.dumps(post_data), content_type='application/json')
         self.assertEqual(post_response.status_code, 200)
 
         # GET the uptime endpoint filtered to the date range spanning those 3 nights
-        get_response = self.client.get(reverse('uptime'), {
+        get_response = self.client.get(reverse('uptimes'), {
             'site': 'tst',
             'enclosure': 'doma',
             'telescope': '1m0a',
@@ -412,35 +412,35 @@ class TestUptimeSerializer(TestCase):
 
         # POST second_half of Oct 10 as an uptime
         post_response = self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10', 'portion_of_night': 'second_half'}])]),
             content_type='application/json'
         )
         self.assertEqual(post_response.status_code, 200)
 
         # GET and verify that an uptime was created
-        get_response = self.client.get(reverse('uptime'), get_params)
+        get_response = self.client.get(reverse('uptimes'), get_params)
         self.assertEqual(get_response.status_code, 200)
         uptimes = get_response.json()['uptimes']
         self.assertEqual(len(uptimes), 1)
 
         # POST remove=True with portion_of_night=all to remove the entire Oct 10 night
         remove_response = self.client.post(
-            reverse('uptime'),
+            reverse('uptimes'),
             json.dumps([self._make_uptime_group([{'day': '2020-10-10', 'remove': True, 'portion_of_night': 'all'}])]),
             content_type='application/json'
         )
         self.assertEqual(remove_response.status_code, 200)
 
         # GET again — the full night was removed so no uptimes should remain for this window
-        get_response = self.client.get(reverse('uptime'), get_params)
+        get_response = self.client.get(reverse('uptimes'), get_params)
         self.assertEqual(get_response.status_code, 200)
         self.assertEqual(get_response.json()['uptimes'], [])
 
     def test_post_uptime_fails_invalid_instrument_type(self):
         # 'INVALID' is not a recognised instrument type in configdb
         data = [self._make_uptime_group([{'day': '2020-10-10'}], instrument_type='INVALID')]
-        response = self.client.post(reverse('uptime'), json.dumps(data), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         # Errors are wrapped in a list because UptimesSerializer uses many=True
         error = response.json()[0]
@@ -452,7 +452,7 @@ class TestUptimeSerializer(TestCase):
         # instrument_type is optional; omitting it defaults to blank, which means all instruments on the telescope
         group = self._make_uptime_group([{'day': '2020-10-10'}])
         del group['instrument_type']
-        response = self.client.post(reverse('uptime'), json.dumps([group]), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps([group]), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertGreater(Downtime.objects.count(), 0)
         self.assertTrue(Downtime.objects.filter(instrument_type='').exists())
@@ -461,20 +461,20 @@ class TestUptimeSerializer(TestCase):
         # 2M0-SCICAM-MUSCAT is a valid instrument type but only exists on tst/doma/2m0a,
         # not on tst/doma/1m0a — so this combination fails cross-field validation
         data = [self._make_uptime_group([{'day': '2020-10-10'}], instrument_type='2M0-SCICAM-MUSCAT')]
-        response = self.client.post(reverse('uptime'), json.dumps(data), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('tst.doma.1m0a.2M0-SCICAM-MUSCAT does not exist in Configdb', str(response.content))
         self.assertEqual(Downtime.objects.count(), 0)
 
     def test_get_uptime_fails_without_required_params(self):
-        response = self.client.get(reverse('uptime'), {'site': 'tst'})
+        response = self.client.get(reverse('uptimes'), {'site': 'tst'})
         self.assertEqual(response.status_code, 400)
         error = response.json()
         self.assertIn('start', error)
         self.assertIn('end', error)
 
     def test_get_uptime_returns_empty_when_no_downtimes_exist(self):
-        response = self.client.get(reverse('uptime'), {
+        response = self.client.get(reverse('uptimes'), {
             'site': 'tst',
             'enclosure': 'doma',
             'telescope': '1m0a',
@@ -492,11 +492,11 @@ class TestUptimeSerializer(TestCase):
             self._make_uptime_group([{'day': '2020-10-10'}], instrument_type='1M0-SCICAM-SINISTRO'),
             self._make_uptime_group([{'day': '2020-10-11'}], instrument_type='1M0-SCICAM-SBIG'),
         ]
-        response = self.client.post(reverse('uptime'), json.dumps(post_data), content_type='application/json')
+        response = self.client.post(reverse('uptimes'), json.dumps(post_data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         # GET uptimes for SINISTRO only — should see Oct 10's night, not Oct 11's
-        sinistro_response = self.client.get(reverse('uptime'), {
+        sinistro_response = self.client.get(reverse('uptimes'), {
             'site': 'tst', 'enclosure': 'doma', 'telescope': '1m0a',
             'instrument_type': '1M0-SCICAM-SINISTRO',
             'start': '2020-10-10T00:00:00Z',
@@ -508,7 +508,7 @@ class TestUptimeSerializer(TestCase):
         self.assertEqual(datetime.fromisoformat(sinistro_uptimes[0][0].replace('Z', '+00:00')).date(), date(2020, 10, 10))
 
         # GET uptimes for SBIG only — should see Oct 11's night, not Oct 10's
-        sbig_response = self.client.get(reverse('uptime'), {
+        sbig_response = self.client.get(reverse('uptimes'), {
             'site': 'tst', 'enclosure': 'doma', 'telescope': '1m0a',
             'instrument_type': '1M0-SCICAM-SBIG',
             'start': '2020-10-10T00:00:00Z',
@@ -523,7 +523,7 @@ class TestUptimeSerializer(TestCase):
         from schedule.uptime import UptimeException
         data = [self._make_uptime_group([{'day': '2020-10-10'}])]
         with patch('schedule.uptime.get_semesters', side_effect=UptimeException('Observation portal unavailable')):
-            response = self.client.post(reverse('uptime'), json.dumps(data), content_type='application/json')
+            response = self.client.post(reverse('uptimes'), json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('Observation portal unavailable', response.json()['error'])
         self.assertEqual(Downtime.objects.count(), 0)

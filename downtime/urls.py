@@ -37,7 +37,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
-    re_path(r'^api/uptime/', UptimeView.as_view(), name='uptime'),
+    re_path(r'^api/uptimes/', UptimeView.as_view(), name='uptimes'),
     re_path(r'^api/', include(router.urls)),
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^authprofile/', include(authprofile_urls)),
