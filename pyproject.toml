@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "downtime"
-version = "2.4.3"
+version = "2.5.0"
 description = "Downtime API"
 authors = ["OCS Authors"]
 readme = "README.md"
