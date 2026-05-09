@@ -1,3 +1,8 @@
+## 2.5.0
+### 2026-05-08
+
+* Added uptime API supporting setting whole or fractions of nights of uptime on insturment_types on telescopes. It uses the semesters API of the observation portal to set the rest of the semester to downtime if used on an empty semester. It merges in multiple uptimes set, and uptime nights can be removed as well. Uses rise-set to determine nighttime boundaries for setting uptimes using only a "day".
+
 ## 2.4.4
 #### 2024-08-01
 

@@ -38,6 +38,7 @@ This project is configured using environment variables.
 | `OAUTH_TOKEN_URL`    | OAuth authentication token endpoint (observation-portal-base-url/o/token)          | `''`                         |
 | `OAUTH_PROFILE_URL`  | Observation portal profile api endpoint (observation-portal-base-url/api/profile)  | `''`                         |
 | `OAUTH_SERVER_KEY`   | Observation portal server secret key to authenticate calls from the server         | `''`                         |
+| `OBS_PORTAL_URL`       | Observation Portal base url                                                    | `http://127.0.0.1:8000`                         |
 | `CONFIGDB_URL`       | Configuration database base url                                                    | `''`                         |
 | `LOGO_URL`           | URL to a hosted logo to display in the navbar of the web frontend                  | `''`                         |
 
