@@ -17,7 +17,7 @@ from django.urls import path, re_path, include
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from rest_framework.routers import DefaultRouter
-from schedule.views import DowntimeListView
+from schedule.views import DowntimeListView, UptimeView
 from schedule.viewsets import DowntimeViewSet
 from rest_framework.schemas import get_schema_view
 from rest_framework import permissions
@@ -37,6 +37,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path(r'^$', DowntimeListView.as_view(), name='web-downtime-list'),
+    re_path(r'^api/uptimes/', UptimeView.as_view(), name='uptimes'),
     re_path(r'^api/', include(router.urls)),
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^authprofile/', include(authprofile_urls)),
