@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "downtime"
-version = "2.5.0"
+version = "2.5.3"
 description = "Downtime API"
 authors = ["OCS Authors"]
 readme = "README.md"
@@ -19,7 +19,7 @@ time-intervals = "^1"
 requests = ">=2,<3"
 whitenoise = ">=5.2,<6.0"
 psycopg2-binary = ">=2.8,<2.10"
-gunicorn = "20.0.4"
+gunicorn = "25.3.0"
 pyyaml = ">=6.0"
 uritemplate = "3.0.1"
 setuptools-scm = "^10.0.5"
