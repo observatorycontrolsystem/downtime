@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.13-alpine
 
 WORKDIR /app
 
@@ -21,4 +21,6 @@ COPY . .
 RUN python manage.py collectstatic --noinput
 
 # Default command
-CMD [ "gunicorn", "--workers=2", "--bind=0.0.0.0:80", "--user=daemon", "--group=daemon", "--access-logfile=-", "--error-logfile=-", "downtime.wsgi" ]
+# Do not add --preload: it imports psycopg in the master before gevent monkey-patches,
+# and breaks concurrency in the deploy.
+CMD [ "gunicorn", "--workers=2", "--worker-class=gevent", "--bind=0.0.0.0:80", "--user=daemon", "--group=daemon", "--access-logfile=-", "--error-logfile=-", "downtime.wsgi" ]
