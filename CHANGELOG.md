@@ -1,3 +1,11 @@
+## 2.6.0
+### 2026-09-14
+
+* Upgraded to Django 6.0 and updated all Django-related dependencies. Django is pinned to `~6.0` because 6.1 raises the minimum PostgreSQL version to 15.
+* Minimum supported Python is now 3.12, as required by Django 6.
+* Added `SchemaDjangoFilterBackend` to preserve filter query parameters in the generated OpenAPI schema, which django-filter dropped in 25.1.
+* Pinned `LIST_SERIALIZER_ERRORS_AS_DICT` to `False` so the uptimes API keeps its list-based validation error format. This must be revisited before DRF 3.20 removes the option.
+
 ## 2.5.3
 ### 2026-05-08
 

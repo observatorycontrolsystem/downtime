@@ -11,8 +11,8 @@ for things such as maintenance activites or education use on specific telescopes
 
 ## Prerequisites
 
--   Python>=3.8
--   (Optional) PostgreSQL
+-   Python>=3.12
+-   (Optional) PostgreSQL>=14 - requires libpq headers
 -   Configuration database to connect to
 -   (Optional) Observation Portal for Oauth2 authentication
 
@@ -27,7 +27,7 @@ This project is configured using environment variables.
 | -------------------- | ---------------------------------------------------------------------------------- | ---------------------------- |
 | `SECRET_KEY`         | Django Secret Key                                                                  | `### CHANGE ME ###`          |
 | `DEBUG`              | Django Debug mode                                                                  | False                        |
-| `DB_ENGINE`          | Database Engine, set to `django.db.backends.postgresql_psycopg2` to use PostgreSQL | `django.db.backends.sqlite3` |
+| `DB_ENGINE`          | Database Engine, set to `django.db.backends.postgresql` to use PostgreSQL          | `django.db.backends.sqlite3` |
 | `DB_NAME`            | Database Name                                                                      | `db.sqlite3`                 |
 | `DB_HOST`            | Database Hostname, set this when using PostgreSQL                                  | `''`                         |
 | `DB_USER`            | Database Username, set this when using PostgreSQL                                  | `''`                         |
@@ -62,7 +62,7 @@ You may use the default SQLite for development, or you can set up using PostgreS
 to running database migrations. If using PostgreSQL, the following command uses the [PostgreSQL Docker image](https://hub.docker.com/_/postgres) to
 create a PostgreSQL database. Make sure that the options that you use to set up your database correspond with your configured database settings.
 
-    docker run --name downtime-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=downtime -v/var/lib/postgresql/data -p5432:5432 -d postgres:11.1
+    docker run --name downtime-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=downtime -v/var/lib/postgresql/data -p5432:5432 -d postgres:14
 
 Run database migrations to set up the tables in the database.
 

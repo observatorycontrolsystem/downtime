@@ -1,35 +1,36 @@
 [tool.poetry]
 name = "downtime"
-version = "2.5.3"
+version = "2.6.0"
 description = "Downtime API"
 authors = ["OCS Authors"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.13"
-django = "^4"
-django-extensions = "^3.2"
-django-filter = "^24"
-django-bootstrap4 = "^24"
-django-cors-headers = "^4.4"
-djangorestframework = "^3.15"
+python = ">=3.12, <3.14"
+django = "~6.0"
+django-extensions = "^4.1"
+django-filter = "^26"
+django-bootstrap4 = "^26"
+django-cors-headers = "^4.9"
+djangorestframework = "^3.18"
 ocs-authentication = "^0.2"
-ocs-rise-set = "^0.6.4"
+ocs-rise-set = "^0.6.6"
 time-intervals = "^1"
 requests = ">=2,<3"
-whitenoise = ">=5.2,<6.0"
-psycopg2-binary = ">=2.8,<2.10"
-gunicorn = "25.3.0"
+whitenoise = "^6.12"
+psycopg = {extras = ["c"], version = "^3.3.4"}
+gunicorn = {version = "^26.0.0", extras = ["gevent"]}
 pyyaml = ">=6.0"
-uritemplate = "3.0.1"
-setuptools-scm = "^10.0.5"
-packaging = "^24.1"
+uritemplate = "^4.2"
+inflection = "^0.5.1"
+setuptools-scm = "^10.3"
+packaging = "^26.0"
 
 
 [tool.poetry.group.dev.dependencies]
 responses = ">=0.12,<1.0"
-coverage = "^6.5.0"
-coveralls = "^3.3.1"
+coverage = "^7.16"
+coveralls = "^4.1"
 
 [build-system]
 requires = ["poetry-core"]
